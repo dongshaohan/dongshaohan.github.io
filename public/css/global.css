@@ -84,7 +84,7 @@ section[data-id="4"] {
     margin-left: -9px;
     width: 19px;
     height: 12px;
-    background: url(img/arrow.png);
+    background: url(../img/arrow.png);
     background-size: 100% 100%;
     -webkit-animation: start 1.5s infinite ease-in-out;
     animation: start 1.5s infinite ease-in-out;
