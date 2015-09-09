@@ -76,9 +76,11 @@ section[data-id="4"] {
     margin-top: -34px;
     width: 34px;
     height: 34px;
+    z-index: 9;
 }
 .start b{
     position: absolute;
+    z-index: 10;
     left: 50%;
     top: 10px;
     margin-left: -9px;
