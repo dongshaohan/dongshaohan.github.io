@@ -1,8 +1,6 @@
 /* custom */
 section[data-id="1"] {
-    /*background-color: #3498db;*/
-    background: url(../img/11.jpg) center center no-repeat;
-    background-size: cover;
+    background-color: #f38dbc;
 }
 section[data-id="2"] {
     background-color: #40d47e;
@@ -18,7 +16,7 @@ section[data-id="4"] {
     height: 200px;
     background-color: #ecf0f1;
     position: absolute;
-    left: 160px; top: 126px;
+    left: 140px; top: 20px;
 }
 .box2 {
     width: 200px;
