@@ -2,7 +2,7 @@
 section[data-id="1"] {
     /*background-color: #3498db;*/
     background: url(../img/11.jpg) center center no-repeat;
-    background-size: 50% 50%;
+    background-size: cover;
 }
 section[data-id="2"] {
     background-color: #40d47e;
