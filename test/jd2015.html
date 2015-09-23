@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+<meta charset="UTF-8">
+<title>JD</title>
+<meta name="renderer" content="webkit">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+</head>
+<style type="text/css">
+	*{padding: 0;margin:0;}
+	html, body{width: 100%;overflow-x: hidden;font-size: 14px;}
+	.main{width: 90%;margin:5% auto;}
+	h1{font-size:20px; line-height: 1.5;}
+	h2{font-size:16px; line-height: 1.5;}
+	pre{margin:10px 0 20px;padding: 10px;background-color: #ccc;white-space: pre-wrap;word-wrap: break-word;}
+	.codeTips{color: #999;}
+</style>
+<body>
+<div class="main">
+<h1>2015年京东面试题</h1>
+<h2>实现一个通用的事件绑定函数，addEvent(dom,type,handler)</h2>
+<pre>
+function addEvent (dom, type, handler) {
+	if ( document.addEventListener ) {
+		dom.addEventListener(type, handler);
+	} else if ( document.attachEvent ) {
+		dom.attachEvent('on' + type, handler);
+	} else {
+		dom['on' + evType] = handler;
+	}
+}
+</pre>
+<h2>不使用全局变量，使用闭包写一个函数，实现返回从1渐进增加的数值，比如第一次调用返回1，第二次返回2，第三次返回3，……</h2>
+<pre>
+function a () {
+	var i = 0
+
+	function b () {
+		i++;
+		console.log(i);		
+	}
+
+	return b;
+};
+
+var c = a();
+c(); // 1
+c(); // 2
+c(); // 3
+...
+</pre>
+<h2>实现一个对象拷贝函数 extend(target,source,isDeep)</h2>
+<pre>
+function extend (target, source, isDeep) {
+	var src, copy, copyIsArray,
+		options = source,
+		length = arguments.length,
+		isDeep = isDeep || false;
+
+	if ( length < 2 || obj == null ) return false;
+	if ( typeof target !== "object" || target == null ) return false;
+	if ( typeof source !== "object" || source == null ) return false;
+	
+	for ( name in options ) {
+		src = target[ name ];
+		copy = options[ name ];
+
+		if ( target === copy ) {
+			continue;
+		}
+
+		if ( isDeep && copy && (typeof copy === "object" || (copyIsArray = Array.isArray(copy)) ) ) {
+			if ( copyIsArray ) {
+				copyIsArray = false;
+				clone = src && Array.isArray(src) ? src : [];
+			} else {
+				clone = src && typeof src === "object" ? src : {};
+			}
+
+			target[ name ] = extend(clone, copy, isDeep);
+		} else {
+			target[ name ] = copy;
+		}
+	}
+
+	return target;
+}
+</pre>
+<h2>下面一段代码：</h2>
+<pre>
+var name ="Bill Gates";
+var aFamousPerson = {
+	name:"Steve Jobs",
+	friend:{
+		name:"Mark Zerkerberg",
+		showMyName:function(){
+			console.log(this.name);
+		}
+	}
+}
+aFamousPerson.friend.showMyName(); <span class="codeTips">//Mark Zerkerberg</span>
+
+show = aFamousPerson.friend.showMyName;
+show(); <span class="codeTips">//Bill Gates</span>
+
+<span class="codeTips">代码怎么写，可以依次显示Bill Gates、Steve Jobs、Mark Zerkerberg</span>
+
+作答：
+
+show = aFamousPerson.friend.showMyName;   // this上下文对象是window，等同于show = function () { console.log (this.name)},
+// 此时的show是全局函数
+show(); //Bill Gates
+
+aFamousPerson.show = aFamousPerson.friend.showMyName;  //Steve Jobs
+aFamousPerson.show();
+
+aFamousPerson.friend.showMyName(); //Mark Zerkerberg this 上下文对象是aFamouPerson 
+</pre>
+<h2>输入一个url到页面加载完，发生了什么？谈谈你的理解</h2>
+<pre>
+一旦输入URL，DNS会进行查询与解析，然后建立连接，在服务器端会有数据库查询，业务处理，返回数据，
+最后渲染页面，执行脚本，加载各种资源，如图片，视频，音乐等。
+</pre>
+
+<h2>一个页面被投诉很慢，要你给出优化方案（措施）</h2>
+<pre>
+一、尽量减少 HTTP 请求
+有几种常见的方法能切实减少 HTTP 请求：
+1、 合并脚本跟样式文件，如可以把多个 CSS 文件合成一个，把多个 JS 文件合成一个。
+2、 CSS Sprites 利用 CSS background 相关元素进行背景图绝对定位,把多个图片合成一个图片
+
+二、使用浏览器缓存
+在用户浏览网站的不同页面时，很多内容是重复的，比如相同的JS、CSS、图片等。
+如果我们能够建议甚至强制浏览器在本地缓存这些文件，将大大降低页面产生的流量，从而降低页面载入时间。
+根据服务器端的响应header，一个文件对浏览器而言，有几级不同的缓存状态。
+
+1、服务器端告诉浏览器不要缓存此文件，每次都到服务器上更新文件。
+2、服务器端没有给浏览器任何指示。
+3、在上次传输中，服务器给浏览器发送了Last-Modified或Etag数据，再次浏览时浏览器将提交这些数据到服务器，验证本地版本是否最新的，
+如果为最新的则服务器返回304代码，告诉浏览器直接使用本地版本，否则下载新版本。一般来说，有且只有静态文件，服务器端才会给出这些数据。
+4、服务器强制要求浏览器缓存文件，并设置了过期时间。在缓存未到期之前，浏览器将直接使用本地缓存文件，不会与服务器端产生任何通信。
+
+我们要做的是尽量强制浏览器到第四种状态，特别是对于JS、CSS、图片等变动较少的文件。
+
+三、将脚本放在底部
+脚本放在顶部带来的问题，
+
+1、使用脚本时，对于位于脚本以下的内容，逐步呈现将被阻塞
+2、在下载脚本时会阻塞并行下载
+
+放在底部可能会出现JS错误问题，当脚本没加载进来，用户就触发脚本事件。
+要综合考虑情况。
+
+四、将样式文件放在页面顶部
+如果样式表任在加载，构建呈现树就是一种浪费，样式文件放在页面底部可能会出现两种情况：
+1、白屏
+2、无样式内容的闪烁
+
+五、使用外部的JS和CSS
+将内联的JS和CSS做成外部的JS、CSS。减少重复下载内联的JS和CSS。
+
+六、精简JS
+可以做到两个级别
+
+1、精简：从代码中移除不必要的字符以减少其大小，
+2、混淆：在精简的同时，还会改写代码，函数、变量名被转换成更短的字符串
+
+可以使用ShrinkSafe来精简JS  http://shrinksafe.dojotoolkit.org/
+
+七、精简CSS
+
+从代码中移除不必要的字符以减少其大小，
+可以使用CSS Compressor http://www.cssdrive.com/index.php/main/csscompressor /
+</pre>
+
+<h2>h5新技术</h2>
+<pre>
+canvas webSocket localstorage video audio border-radius等等 
+</pre>
+
+<h2>有10万 cdkey号码（数字，字母组成的序列号，每个序列号可兑换一定的物品，比如购物券等），给出发放cdkey的一个方案：</h2>
+<p>1)用户登录后领取，每人一张</p>
+<p>用户量并发比较大的时候，不允许出现一个cdkey发放给多人的情况</p>
+<p>给出价格设计并解释主要步骤流程</p>
+<pre></pre>
+
+<h2>编写函数trim()，用于去除字符串左右的空格，可如下调用：<br/>"  ab cd e   ".trim();</h2>
+<pre>
+String.prototype.trim = function () {  
+    return this.replace(/(^\s*)|(\s*$)/g, "");  
+}
+</pre>
+
+<h2>li节点很大，且动态变化时，点击这些节点，弹出li节点坐标信息，节点内容</h2>
+<pre>
+document.addEventListener('click', function (e) {
+	if ( e.target.nodeName == 'LI' ) {
+		console.log("X:"+ e.pageX +'，Y:'+ e.pageY);
+		console.log(e.target.innerHTML);
+	}
+});
+</pre>
+
+<h2>跨域解决方案</h2>
+<pre>
+1、跨域问题是浏览器同源策略限制，当前域名的js只能读取同域下的窗口属性。
+2、
+使用jsonp
+服务端代理
+服务端设置Request Header头中Access-Control-Allow-Origin为指定可获取数据的域名
+3、
+jsonp解决跨域问题的原理是，浏览器的script标签是不受同源策略限制
+(你可以在你的网页中设置script的src属性问cdn服务器中静态文件的路径)。
+那么就可以使用script标签从服务器获取数据，请求时添加一个参数为callbakc=?，?号时你要执行的回调方法。
+
+服务端返回数据处理
+上面说了jsonp的原理是利用script标签来解决跨域，但是script标签是用来获取js代码的，那么我们怎么获取到请求的数据呢。
+这就需要服务端做一些判断，当参数中带有callback属性时，返回的type要为application/javascript,
+把数据作为callback的参数执行。下面是jsonp返回的数据的格式示例
+4、
+服务端设置Access-Control-Allow-Origin
+这种方式只要服务端把response的header头中设置
+Access-Control-Allow-Origin为制定可请求当前域名下数据的域名即可。
+一般情况下设为即可。这样客户端就不需要使用jsonp来获取数据。
+
+Access-Control-Allow-Origin是html5新增的一项标准，IE10以下是不支持的，
+所以如果产品面向的是PC端，就要使用服务端代理或jsonp。
+</pre>
+
+
+<h2>http请求类型，状态码，长链接</h2>
+<pre>
+1、GET、POST、PUT、DELETE、OPTIONS、TARCE
+2、
+200 OK
+304 Not Modified
+403 Forbidden
+404 Not Found
+500 Internal Server Error
+
+3、 HTTP长连接，与一般每次发起http请求或响应都要建立一个tcp连接不同，
+http长连接利用同一个tcp连接处理多个http请求和响应，也叫HTTP keep-alive，或者http连接重用。
+使用http长连接可以提高http请求/响应的性能。
+</pre>
+
+<h2>缓存一天，服务器该如何设置</h2>
+<pre>
+方案一：
+Http Header
+Expires: 设置为后一天
+
+方案二：
+把请求的html缓存入redis，ttl设置为86400s
+</pre>
+
+<h2>安全问题</h2>
+<pre></pre>
+</div>
+<script type="text/javascript">
+
+</script>
+</body>
+</html>
