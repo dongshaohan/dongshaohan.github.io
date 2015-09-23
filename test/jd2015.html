@@ -30,7 +30,7 @@ function addEvent (dom, type, handler) {
 	} else if ( document.attachEvent ) {
 		dom.attachEvent('on' + type, handler);
 	} else {
-		dom['on' + evType] = handler;
+		dom['on' + type] = handler;
 	}
 }
 </pre>
