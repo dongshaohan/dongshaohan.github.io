@@ -175,7 +175,7 @@ aFamousPerson.friend.showMyName(); //Mark Zerkerberg this 上下文对象是aFam
 
 <h2>h5新技术</h2>
 <pre>
-canvas webSocket localstorage video audio border-radius等等 
+canvas webSocket webStorage video audio WebGL 地理位置 SVG 离线Web应用等等
 </pre>
 
 <h2>有10万 cdkey号码（数字，字母组成的序列号，每个序列号可兑换一定的物品，比如购物券等），给出发放cdkey的一个方案：</h2>
@@ -232,11 +232,11 @@ Access-Control-Allow-Origin是html5新增的一项标准，IE10以下是不支�
 <pre>
 1、GET、POST、PUT、DELETE、OPTIONS、TARCE
 2、
-200 OK
-304 Not Modified
-403 Forbidden
-404 Not Found
-500 Internal Server Error
+1开头：代表请求已被接受，需要继续处理
+2开头：代表请求已成功被服务器接收、理解、并接受
+3开头：要客户端采取进一步的操作才能完成请求。通常，这些状态码用来重定向，后续的请求地址（重定向目标）
+4开头：客户端看起来可能发生了错误，妨碍了服务器的处理。
+5开头：服务器在处理请求的过程中有错误或者异常状态发生，也有可能是服务器意识到以当前的软硬件资源无法完成对请求的处理
 
 3、 HTTP长连接，与一般每次发起http请求或响应都要建立一个tcp连接不同，
 http长连接利用同一个tcp连接处理多个http请求和响应，也叫HTTP keep-alive，或者http连接重用。
