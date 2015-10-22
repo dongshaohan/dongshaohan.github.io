@@ -246,10 +246,10 @@ http长连接利用同一个tcp连接处理多个http请求和响应，也叫HTT
 <pre>
 方案一：
 Http Header
-Expires: 设置为后一天
+Expires: 设置为后一天 // 格式 Expires  Wed, 12 Oct 2016 13:18:42 GMT
 
 方案二：
-把请求的html缓存入redis，ttl设置为86400s
+Cache-Control: private, max-age=86400 // 单位秒
 </pre>
 
 <h2>安全问题</h2>
