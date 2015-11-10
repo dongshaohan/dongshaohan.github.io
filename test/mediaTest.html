@@ -19,5 +19,27 @@
 	<video width="100%" height="200" controls preload="preload">
 		<source src="http://qn.cnweike.cn/content/0/3/117/226585/84038.m.mp4" type='video/mp4' />
 	</video>
+
+	<script type="text/javascript">
+		// start end皆为日期转换后的毫秒
+		function timecount (start, end) {
+			var now = new Date().getTime(); // 服务器时间为准
+
+			if ( now < start ) {
+				// 调用倒计时timecount(start-now)
+				console.log('距离x开始还有');
+			} else if ( now > end ) {
+				console.log('已结束');
+			} else {
+				// 调用倒计时timecount(end-now)
+				console.log('距离x结束还有');
+			}
+		};
+
+		// 倒计时函数
+		function timecount (time) {
+
+		}
+	</script>
 </body>
 </html>

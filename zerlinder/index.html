@@ -1,17 +1,108 @@
-<!DOCTYPE html>
-<html lang="zh-ch">
-	<head>
-		<meta http-equiv="Content-Security-Policy">
-        <meta charset="utf-8">
-        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-        <meta name="format-detection" content="telephone=no,email=no" />
-        <link href="../public/css/style.css" rel="stylesheet">
-		<title>猪小銮</title>
-	</head>
-	
-	<body>
-		<div class="pct90 auto">
-			<p class="mt20"><img src="../public/img/1.jpg" width="100%"></p>
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"/>
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+	<title>猪猪生日快乐</title>
+	<meta name="description" content="小猪銮每天都要快快乐乐哦～么么哒～">
+	<link rel="stylesheet" href="../public/css/parallax.css">
+	<link rel="stylesheet" href="../public/css/parallax-animation.css">
+	<link rel="stylesheet" href="../public/css/global.css">
+</head>
+<body>
+	<div style="display: none;">
+		<img src="../public/img/2.jpg">
+	</div>
+	<audio hidden="hidden" autoplay="autoplay" loop="loop">
+		<source src="../public/music/ye5.mp3" type="audio/mpeg" />
+	</audio>
+	<div class="wrapper">
+		<div class="pages">
+
+			<!-- 第一屏 -->
+			<section class="page">
+				<div class="box1" data-animation="slideToBottom" data-timing-function="ease-in">
+					<img src="../public/img/2.jpg" width="100%">
+				</div>
+				<div class="box2" data-animation="slideToTop" data-delay="300" data-timing-function="ease-out">
+					<img src="../public/img/911-3.jpg" width="100%">
+				</div>
+				<div class="box3" data-animation="slideToRight" data-delay="600" data-timing-function="linear">Happy Birthday!</div>
+				<div class="box4" data-animation="slideToLeft" data-delay="900" data-timing-function="cubic-bezier(.12,.73,.62,1.38)">
+					<img src="../public/img/911-4.jpg" width="100%">
+				</div>
+			</section>
+
+	        <!-- 第二屏 -->
+			<section class="page">
+				<div class="box5" data-animation="followSlide" data-duration="1000">
+					<img src="../public/img/911-5.jpg" width="100%">
+				</div>
+				<div class="box6" data-animation="followSlide" data-delay="200" data-duration="1000">
+					<img src="../public/img/911-8.jpg" width="100%">
+				</div>
+				<div class="box7" data-animation="followSlide" data-delay="400" data-duration="1000">虽然我与你相识不久，也未见过你，但我还是想和你说声</div>
+				<div class="box8" data-animation="followSlide" data-delay="600" data-duration="1000">纹纹生日快乐！</div>
+			</section>
+
+	        <!-- 第三屏 -->
+			<section class="page">
+				<div class="box9" data-animation="fadeInToBottom">
+					<img src="../public/img/911-6.jpg" width="100%">
+				</div>
+				<div class="box10" data-animation="fadeInToTop" data-delay="200">
+					<img src="../public/img/911-7.jpg" width="100%">
+				</div>
+				<div class="box11" data-animation="fadeInToLeft" data-delay="400">
+					在这无比温馨的时刻，祝福你拥有一个甜蜜温馨、快快乐乐的生日。
+				</div>
+				<div class="box12" data-animation="fadeInToRight" data-delay="600">
+					青春常驻，笑口常开，永远美丽，越来越可爱。
+				</div>
+			</section>
+
+			<!-- 第四屏 -->
+<!-- 			<section class="page">
+				<div class="box1" data-animation="fadeIn"></div>
+				<div class="box2" data-animation="fadeOut" data-delay="800"></div>
+			</section> -->
+			
+			<span class="start"><b></b></span>
 		</div>
-	</body>
+	</div>
+<script src="../public/js/zepto.min.js"></script>
+<script src="../public/js/parallax.js"></script>
+<script>
+	
+	$('.pages').parallax({
+		direction: 'vertical', 	// horizontal (水平翻页)
+		swipeAnim: 'cover', 	// cover (切换效果)
+		drag:      true,		// 是否允许拖拽 (若 false 则只有在 touchend 之后才会翻页)
+		loading:   false,		// 有无加载页
+		indicator: false,		// 有无指示点
+		arrow:     false,		// 有无指示箭头
+		/*
+		 * 翻页后立即执行
+		 * {int} 		index: 第几页
+		 * {DOMElement} element: 当前页节点
+		 * {String}		directation: forward(前翻)、backward(后翻)、stay(保持原页)
+		 */
+		onchange: function(index, element, direction) {
+			// code here...
+			// console.log(index, element, direction);
+		},
+		/*
+		 * 横竖屏检测
+		 * {String}		orientation: landscape、protrait
+		 */
+		orientationchange: function(orientation) {
+			// console.log(orientation);
+		}
+	});
+
+</script>
+</body>
 </html>
