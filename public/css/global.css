@@ -59,9 +59,9 @@ body {
     z-index: 2;
 }
 .box8 {
-    width: 80%;
+    width: 100%;
     position: absolute;
-    left: 0; top: 20%;
+    left: 0; top: 5%;
     font-size: 22px;
     text-align: center;
     z-index: 2;
