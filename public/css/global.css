@@ -12,7 +12,7 @@ section[data-id="4"] {
     background-color: #40d47e;
 }
 body {
-    color: #666;
+    color: #fff;
     font-size: 18px;
 }
 .box1 {
@@ -24,6 +24,10 @@ body {
     width: 100%;
     position: absolute;
     left: 0; bottom: 0;
+}
+.box2 img {
+    position: relative;
+    left: 0;bottom: 0;
 }
 .box3 {
     width: 100%;
