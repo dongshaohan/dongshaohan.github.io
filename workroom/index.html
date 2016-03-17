@@ -18,24 +18,12 @@
 				<a href="index.html"><img src="./images/logo.png" alt=""></a>
 			</div>
 			<!-- Slideshow 4 -->
-		    <div id="top" class="callbacks_container">
-		      	<ul class="rslides" id="slider4">
+		    <div class="callbacks_container">
+		      	<ul class="rslides">
 			        <li>
 			        	<div class="slide-content">
 							<h2>Welcome to iK!</h2>
 							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod<br> tempor incididunt ut labore et dolore magna aliqua.</p>
-						</div>
-					</li>
-					<li>
-			        	<div class="slide-content">
-							<h2>Awesome Day!</h2>
-							<p>dolor sit amet, Lorem ipsum consectetur adipisicing elit, sed do eiusmod<br> tempor incididunt ut labore et dolore magna aliqua.</p>
-						</div>
-					</li>
-					<li>
-			        	<div class="slide-content">
-							<h2>Let's work to iK!</h2>
-							<p>consectetur Lorem ipsum dolor sit amet, adipisicing elit, sed do eiusmod<br> tempor incididunt ut labore et dolore magna aliqua.</p>
 						</div>
 					</li>
 		      	</ul>
@@ -69,6 +57,9 @@
 				<div class="clearfix"></div>
 			</div>
 			<div class="row about-row">
+				<div class="col-md-3 about-row-column">
+					<img src="./images/men-a.jpg" alt=""/>
+				</div>
 				<div class="col-md-9 about-column">
 					<h3>Jon Doe</h3>
 					<h4>Subtitle</h4>
@@ -81,9 +72,6 @@
 						<li><i class="in"></i></li>
 						<li><i class="pw"></i></li>
 					</ul>
-				</div>
-				<div class="col-md-3 about-row-column">
-					<img src="./images/men-b.jpg" alt=""/>
 				</div>
 				<div class="clearfix"></div>
 			</div>
@@ -189,20 +177,6 @@
 		$(function () {
 			var $toTop = $('#toTop');
 
-			$("#slider4").responsiveSlides({
-				auto: true,
-				pager: true,
-				nav: true,
-				speed: 500,
-				namespace: "callbacks",
-				before: function () {
-					
-				},
-				after: function () {
-					
-				}
-			});
-
 			$toTop.click(function (event) {		
 				event.preventDefault();
 				$('html, body').animate({ scrollTop: 0 }, 1000);
@@ -211,7 +185,7 @@
 		 	$(window).scroll(function() {
 			 	var scrollpos = $(window).scrollTop();
 			 	
-			 	if ( scrollpos > 50 ) {
+			 	if ( scrollpos > 100 ) {
 			 		$toTop.show();
 			 	} else {
 			 		$toTop.hide();
