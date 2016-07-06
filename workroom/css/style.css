@@ -5,7 +5,7 @@ form,fieldset,input,textarea,p,blockquote,th,td {
     padding: 0;
     margin: 0;
 }
-a{
+a {
 	text-decoration:none;
 }
 table {
@@ -18,7 +18,7 @@ address,caption,cite,code,dfn,em,strong,th,var {
     font-weight: normal;
     font-style: normal;
 }
-strong{
+strong {
 	font-weight: bold;
 }
 ol,ul {
@@ -45,44 +45,80 @@ abbr,acronym {
 
 /* Single CSS
  * --------------------------------------- */
- .vm{
+ .vm {
     vertical-align: middle;
  }
-
+.tc {
+    text-align: center;
+}
 /* Custom CSS
  * --------------------------------------- */
-body{
+body {
 	font-family: arial,helvetica;
 	font-size: 14px;
 	color: #333;
 }
-.top{
+.top {
     position: fixed;
-    top: 0;left: 0;
+    top: 5px;left: 0;
     z-index: 10;
     width: 100%;
 }
-.logo{
+.logo {
     width: 35%;
     text-align: right;
     display: inline-block;
-    height: 50px;
+    height: 40px;
 }
-.menu{
+.menu {
     width: 64%;
     display: inline-block;
     text-align: center;
-    height: 50px;
-    line-height: 50px;
+    height: 40px;
+    line-height: 40px;
 }
-.menu li{
+.menu li {
     display: inline-block;
     margin-right: 30px;
 }
-#menu li.active{
+#menu li.active {
     border-bottom: 2px solid #000;
 }
-.menu a{
+.menu a {
     color: #000;
     cursor: pointer;
+    display: block;
+    height: 40px;
+}
+/* 1st screen CSS
+ * --------------------------------------- */
+.first-info {
+    position: absolute;
+    width: 100%;
+    top: 220px;
+    font-size: 32px;
+    color: #000;
+    text-align: center;
+}
+.first-pic-one {
+    text-align: center;
+    position: absolute;
+    top: 100px;
+    width: 100%;
+    z-index: 2;
+}
+.first-pic-two {
+    text-align: center;
+    position: absolute;
+    bottom: 32px;
+    width: 100%;
+    z-index: 2;
+}
+.first-bottom {
+    width: 100%;
+    background-color: #f0d440;
+    height: 80px;
+    position: absolute;
+    bottom: 0;left: 0;
+    z-index: 1;
 }
