@@ -55,6 +55,29 @@ body{
 .avatar {
 	background: url(../img/avatar.png) 0 0 no-repeat;
 }
+.scrollWrap {
+	position: absolute;
+	z-index: 1;
+	top: 45px;
+	bottom: 0px;
+	left: 0;
+	right: 0;
+	background: #fff;
+	overflow: hidden;
+}
+.scroller {
+	position: absolute;
+	z-index: 1;
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+	width: 100%;
+	-webkit-transform: translateZ(0);
+	transform: translateZ(0);
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	user-select: none;
+	-webkit-text-size-adjust: none;
+	text-size-adjust: none;
+}
 /* end */
 
 .wrap{width: 100%;}

@@ -218,6 +218,7 @@ $(function () {
             
             if ( DB[url] ) {
                 self.$el.html( self.tpl({data: DB[url]}) );
+                self.initEvent();
                 return this;
             }   
                      
@@ -233,6 +234,7 @@ $(function () {
                     DB[url] = d;
                     setTimeout(function () {
                         self.$el.html( self.tpl({data: d}) );
+                        self.initEvent();
                     }, 200);
                 },
                 error: function (xhr, type) {
@@ -255,24 +257,26 @@ $(function () {
             });
 
             this.$el = $(url);
-            this.get(url).initEvent();
+            this.get(url);
         },
         initEvent: function () {
             searchEvent(this.$el);
             this.letterNav();
+            this.myScroll = new IScroll('#wrapper', { mouseWheel: true });
             return false;
         },
         letterNav: function () {
             var self = this;
             var timer = null;
+        
             this.$el.on('click', '.nav-inner', function (e) {
                 var $tip = $('#letter-tip');
                 var $list = $('#contactList');
                 var letter = e.target.textContent;
-                var dist = $list.find('[data-info='+ letter +']').offset();
-                
-                if ( dist ) {
-                    self.$el.scrollTop(dist.top - 44);
+                var $tar = $list.find('[data-info='+ letter +']');
+
+                if ( $tar.length > 0 ) {
+                    self.myScroll.scrollToElement($tar[0], 0);
                 }
                 $tip.text(letter).show();
                 clearTimeout(timer);
@@ -285,6 +289,7 @@ $(function () {
             this.$el.off('click');
             this.$el.remove();
             this.$el = null;
+            this.myScroll = null;
             return false;
         }
     };

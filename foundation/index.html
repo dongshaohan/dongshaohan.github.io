@@ -178,32 +178,37 @@
 				</ul>
 			</div>
 			<div class="pop-letter" id="letter-tip" style="display: none;">L</div>
-			<div class="mod-cont-names" id="contactList">
-				<% _.each(data, function (val, key) { %>
-				<div class="mod-names">
-					<h3 data-info="<%=key%>"><%=key%></h3>
-					<ul class="lists-name">
-						<% _.each(val, function (i, j) { %>
-						<li class="weui-panel__bd" data-id="<%=i.id%>">
-							<a href="#user<%=i.id%>" class="weui-media-box weui-media-box_appmsg">
-			                    <div class="weui-media-box__hd bc-eee">
-			                        <!-- <img class="weui-media-box__thumb" src="<%=i.avatar%>"> -->
-			                    </div>
-			                    <div class="weui-media-box__bd">
-			                        <h4 class="weui-media-box__title"><%=i.name%></h4>
-			                    </div>
-			                </a>
+			<div class="scrollWrap" id="wrapper">
+				<div class="scroller">
+					<ul class="mod-cont-names" id="contactList">
+						<% _.each(data, function (val, key) { %>
+						<li class="mod-names">
+							<h3 data-info="<%=key%>"><%=key%></h3>
+							<ul class="lists-name">
+								<% _.each(val, function (i, j) { %>
+								<li class="weui-panel__bd" data-id="<%=i.id%>">
+									<a href="#user<%=i.id%>" class="weui-media-box weui-media-box_appmsg">
+					                    <div class="weui-media-box__hd bc-eee">
+					                        <!-- <img class="weui-media-box__thumb" src="<%=i.avatar%>"> -->
+					                    </div>
+					                    <div class="weui-media-box__bd">
+					                        <h4 class="weui-media-box__title"><%=i.name%></h4>
+					                    </div>
+					                </a>
+								</li>
+								<% }) %>
+							</ul>
 						</li>
 						<% }) %>
 					</ul>
 				</div>
-				<% }) %>
 			</div>
 		</div>
 	</script>
 	<script type="text/javascript" src="js/jweixin-1.1.0.js"></script>
 	<script type="text/javascript" src="js/zepto.min.js"></script>
 	<script type="text/javascript" src="js/underscore-min.js"></script>
+	<script type="text/javascript" src="js/iscroll.js"></script>
 	<script type="text/javascript" src="js/app.js"></script>
 </body>
 </html>
