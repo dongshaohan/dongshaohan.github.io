@@ -264,9 +264,9 @@ $(function () {
         },
         letterNav: function () {
             var timer = null;
-            this.$el.on('click touchmove', '.nav-inner li', function () {
+            this.$el.on('click touchmove', '.nav-inner', function (e) {
                 var $tip = $('#letter-tip');
-                var letter = $(this).data('letter');
+                var letter = e.target.textContent;
 
                 $tip.text(letter).show();
                 clearTimeout(timer);
