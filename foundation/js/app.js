@@ -260,7 +260,7 @@ $(function () {
         initEvent: function () {
             searchEvent(this.$el);
             this.letterNav();
-            this.myScroll = new IScroll('#wrapper', { mouseWheel: true, bounce: false});
+            this.myScroll = new IScroll('#wrapper', { mouseWheel: true, bounce: false, useTransition: false});
         },
         letterNav: function () {
             var self = this;
