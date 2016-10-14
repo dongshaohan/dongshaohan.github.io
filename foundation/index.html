@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="format-detection" content="telephone=no, email=no" />
+    <title></title>
+    <link rel="stylesheet" href="css/weui.css"/>
+    <link rel="stylesheet" href="css/style.css"/>
+</head>
+
+<body>
+	<div class="container" id="container"></div>
+	
+	<script type="text/html" id="tpl_base">
+		<div class="page">
+			<div class="mod-load load">
+				<div class="weui-loadmore">
+		            <i class="weui-loading"></i>
+		            <span class="weui-loadmore__tips">正在加载</span>
+		        </div>
+			</div>
+			<div class="mod-load error f-hide">
+				<div class="weui-loadmore weui-loadmore_line">
+		            <span class="weui-loadmore__tips">无法连接网络</span>
+		        </div>
+		    </div>
+		</div>
+	</script>
+	<script type="text/html" id="tpl_home">
+		<div class="mod-search">
+			<div class="weui-search-bar searchBar">
+	            <div class="weui-search-bar__form">
+	                <div class="weui-search-bar__box">
+	                    <i class="weui-icon-search"></i>
+	                    <input type="search" class="weui-search-bar__input searchInput" onsearch="" placeholder="姓名/手机号" required="">
+	                    <a href="javascript:" class="weui-icon-clear searchClear"></a>
+	                </div>
+	                <label class="weui-search-bar__label searchText">
+	                    <i class="weui-icon-search"></i>
+	                    <span>搜索</span>
+	                </label>
+	            </div>
+	            <a href="javascript:" class="weui-search-bar__cancel-btn searchCancel">取消</a>
+	        </div>
+		</div>
+		<div class="mod-cont">
+			<ul class="mod-lists" id="home_list">
+				<% _.each(data, function (a, l) { %>
+				<li>
+					<!-- 默认箭头向右，展开类名为：icon-arrow，没有箭头的时候类名为：icon-arrow-no --> 
+					<div class="weui-cell weui-cell_access">
+		                <div class="weui-cell__bd" data-id="<%=a.id%>">
+		                    <p>	
+		                    	<% if ( a.children ) { %>
+		                    	<i class="icon"></i>
+		                    	<% } else { %>
+		                    	<i class="icon-arrow-no"></i>
+		                    	<% } %>
+		                    	<%=a.departmentName%>
+		                    </p>
+		                </div>
+		                <div class="weui-cell__ft"></div>
+		            </div>
+		            <% if ( a.children ) { %>
+		            <div class="f-hide"> 
+			            <% _.each(a.children, function (b, m) { %> 
+						<ul>
+							<li>
+								<div class="weui-cell weui-cell_access">
+					                <div class="weui-cell__bd" data-id="<%=b.id%>">
+					                    <p>
+					                    	<% if ( b.children ) { %>
+					                    	<i class="icon"></i>
+					                    	<% } else { %>
+					                    	<i class="icon-arrow-no"></i>
+		                    				<% } %>
+					                    	<%=b.departmentName%>
+					                    </p>
+					                </div>
+					                <div class="weui-cell__ft"></div>
+					            </div>
+					            <% if ( b.children ) { %>
+					           	<div class="f-hide">
+						            <% _.each(b.children, function (c, n) { %>  
+									<ul>
+										<li>
+											<div class="weui-cell weui-cell_access">
+								                <div class="weui-cell__bd" data-id="<%=c.id%>">
+								                    <p>
+								                    	<% if ( c.children ) { %>
+								                    	<i class="icon"></i>
+								                    	<% } else { %>
+								                    	<i class="icon-arrow-no"></i>
+					                    				<% } %>
+								                    	<%=c.departmentName%>
+								                    </p>
+								                </div>
+								                <div class="weui-cell__ft"></div>
+								            </div> 
+								            <% if ( c.children ) { %>
+								            <div class="f-hide">
+									            <% _.each(c.children, function (d, o) { %>
+												<ul>
+													<li>
+														<div class="weui-cell weui-cell_access">
+											                <div class="weui-cell__bd" data-id="<%=d.id%>">
+											                    <p><i class="icon-arrow-no"></i><%=d.departmentName%></p>
+											                </div>
+											                <div class="weui-cell__ft"></div>
+											            </div> 
+													</li>
+												</ul>
+												<% }) %>
+											</div>
+											<% } %>
+										</li>
+									</ul>
+									<% }) %>
+								</div>
+								<% } %>
+							</li>	
+						</ul>
+						<% }) %>
+					</div>
+					<% } %>
+				</li>
+				<% }) %>
+			</ul>	
+		</div>
+	</script>
+	<script type="text/html" id="tpl_list">
+		<div class="mod-search">
+			<div class="weui-search-bar searchBar">
+	            <div class="weui-search-bar__form">
+	                <div class="weui-search-bar__box">
+	                    <i class="weui-icon-search"></i>
+	                    <input type="search" class="weui-search-bar__input searchInput" onsearch="" placeholder="姓名/手机号" required="">
+	                    <a href="javascript:" class="weui-icon-clear searchClear"></a>
+	                </div>
+	                <label class="weui-search-bar__label searchText">
+	                    <i class="weui-icon-search"></i>
+	                    <span>搜索</span>
+	                </label>
+	            </div>
+	            <a href="javascript:" class="weui-search-bar__cancel-btn searchCancel">取消</a>
+	        </div>
+		</div>
+		<div class="mod-cont">
+			<div class="nav-a-z">
+				<div class="nav-inner" id="nav-list">
+					<a href="javascript:;">A</a>
+					<a href="javascript:;">B</a>
+					<a href="javascript:;">C</a>
+					<a href="javascript:;">D</a>
+					<a href="javascript:;">E</a>
+					<a href="javascript:;">F</a>
+					<a href="javascript:;">G</a>
+					<a href="javascript:;">H</a>
+					<a href="javascript:;">I</a>
+					<a href="javascript:;">J</a>
+					<a href="javascript:;">K</a>
+					<a href="javascript:;">L</a>
+					<a href="javascript:;">M</a>
+					<a href="javascript:;">N</a>
+					<a href="javascript:;">O</a>
+					<a href="javascript:;">P</a>
+					<a href="javascript:;">Q</a>
+					<a href="javascript:;">R</a>
+					<a href="javascript:;">S</a>
+					<a href="javascript:;">T</a>
+					<a href="javascript:;">U</a>
+					<a href="javascript:;">V</a>
+					<a href="javascript:;">W</a>
+					<a href="javascript:;">X</a>
+					<a href="javascript:;">Y</a>
+					<a href="javascript:;">Z</a>
+				</div>
+			</div>
+			<div class="pop-letter">L</div>
+			<div class="mod-cont-names">
+				<% _.each(data, function (val, key) { %>
+				<div class="mod-names">
+					<h3><%=key%></h3>
+					<ul class="lists-name">
+						<% _.each(val, function (i, j) { %>
+						<li class="weui-panel__bd" data-id="<%=i.id%>">
+							<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
+			                    <div class="weui-media-box__hd avatar">
+			                        <img class="weui-media-box__thumb" src="<%=i.avatar%>">
+			                    </div>
+			                    <div class="weui-media-box__bd">
+			                        <h4 class="weui-media-box__title"><%=i.name%></h4>
+			                    </div>
+			                </a>
+						</li>
+						<% }) %>
+					</ul>
+				</div>
+				<% }) %>
+			</div>
+		</div>
+	</script>
+	<script type="text/javascript" src="js/jweixin-1.1.0.js"></script>
+	<script type="text/javascript" src="js/zepto.min.js"></script>
+	<script type="text/javascript" src="js/underscore-min.js"></script>
+	<script type="text/javascript" src="js/app.js"></script>
+</body>
+</html>
