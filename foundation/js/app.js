@@ -231,7 +231,9 @@ $(function () {
                     console.log(result.data);
                     var d = _.groupBy(result.data, 'pinyin');
                     DB[url] = d;
-                    self.$el.html( self.tpl({data: d}) );
+                    setTimeout(function () {
+                        self.$el.html( self.tpl({data: d}) );
+                    }, 200);
                 },
                 error: function (xhr, type) {
                     self.$el.find('.error').removeClass('f-hide')
@@ -264,7 +266,7 @@ $(function () {
             return this;
         },
         nameNav: function () {
-            
+
         },
         remove: function () {
             this.$el.remove();
