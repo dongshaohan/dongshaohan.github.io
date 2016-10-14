@@ -272,7 +272,7 @@ $(function () {
                 var dist = $list.find('[data-info='+ letter +']').offset();
                 
                 if ( dist ) {
-                    self.$el.scrollTop(dist.top);
+                    self.$el.scrollTop(dist.top - 44);
                 }
                 $tip.text(letter).show();
                 clearTimeout(timer);
