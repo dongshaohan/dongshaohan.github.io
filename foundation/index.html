@@ -178,10 +178,10 @@
 				</ul>
 			</div>
 			<div class="pop-letter" id="letter-tip" style="display: none;">L</div>
-			<div class="mod-cont-names">
+			<div class="mod-cont-names" id="contactList">
 				<% _.each(data, function (val, key) { %>
 				<div class="mod-names">
-					<h3><%=key%></h3>
+					<h3 data-info="<%=key%>"><%=key%></h3>
 					<ul class="lists-name">
 						<% _.each(val, function (i, j) { %>
 						<li class="weui-panel__bd" data-id="<%=i.id%>">

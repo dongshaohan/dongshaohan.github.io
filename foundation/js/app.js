@@ -263,20 +263,23 @@ $(function () {
             return false;
         },
         letterNav: function () {
+            var self = this;
             var timer = null;
-            this.$el.on('touchstart touchmove', '.nav-inner', function (e) {
+            this.$el.on('click', '.nav-inner', function (e) {
                 var $tip = $('#letter-tip');
+                var $list = $('#contactList');
                 var letter = e.target.textContent;
-
+                var dist = $list.find('[data-info='+ letter +']').offset();
+                
+                if ( dist ) {
+                    self.$el.scrollTop(dist.top);
+                }
                 $tip.text(letter).show();
                 clearTimeout(timer);
                 timer = setTimeout(function () {
                     $tip.hide();
                 }, 500);
             });
-        },
-        scrollToLetter: function () {
-
         },
         remove: function () {
             this.$el.off('click');
