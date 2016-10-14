@@ -257,20 +257,31 @@ $(function () {
             this.$el = $(url);
             this.get(url).initEvent();
         },
-        _bind: function (type, selector, callback) {
-            this.$el.on(type, selector, callback);
-            return this;
-        },
         initEvent: function () {
             searchEvent(this.$el);
-            return this;
+            this.letterNav();
+            return false;
         },
-        nameNav: function () {
+        letterNav: function () {
+            var timer = null;
+            this.$el.on('click touchmove', '.nav-inner li', function () {
+                var $tip = $('#letter-tip');
+                var letter = $(this).data('letter');
+
+                $tip.text(letter).show();
+                clearTimeout(timer);
+                timer = setTimeout(function () {
+                    $tip.hide();
+                }, 500);
+            });
+        },
+        scrollToLetter: function () {
 
         },
         remove: function () {
-            this.$el.remove();
-            return this;
+            this.$el.off('click');
+            this.$el = null;
+            return false;
         }
     };
 

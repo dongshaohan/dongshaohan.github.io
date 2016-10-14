@@ -148,36 +148,36 @@
 		</div>
 		<div class="mod-cont">
 			<div class="nav-a-z">
-				<div class="nav-inner" id="nav-list">
-					<a href="javascript:;">A</a>
-					<a href="javascript:;">B</a>
-					<a href="javascript:;">C</a>
-					<a href="javascript:;">D</a>
-					<a href="javascript:;">E</a>
-					<a href="javascript:;">F</a>
-					<a href="javascript:;">G</a>
-					<a href="javascript:;">H</a>
-					<a href="javascript:;">I</a>
-					<a href="javascript:;">J</a>
-					<a href="javascript:;">K</a>
-					<a href="javascript:;">L</a>
-					<a href="javascript:;">M</a>
-					<a href="javascript:;">N</a>
-					<a href="javascript:;">O</a>
-					<a href="javascript:;">P</a>
-					<a href="javascript:;">Q</a>
-					<a href="javascript:;">R</a>
-					<a href="javascript:;">S</a>
-					<a href="javascript:;">T</a>
-					<a href="javascript:;">U</a>
-					<a href="javascript:;">V</a>
-					<a href="javascript:;">W</a>
-					<a href="javascript:;">X</a>
-					<a href="javascript:;">Y</a>
-					<a href="javascript:;">Z</a>
-				</div>
+				<ul class="nav-inner">
+					<li data-letter="A">A</li>
+					<li data-letter="B">B</li>
+					<li data-letter="C">C</li>
+					<li data-letter="D">D</li>
+					<li data-letter="E">E</li>
+					<li data-letter="F">F</li>
+					<li data-letter="G">G</li>
+					<li data-letter="H">H</li>
+					<li data-letter="I">I</li>
+					<li data-letter="J">J</li>
+					<li data-letter="K">K</li>
+					<li data-letter="L">L</li>
+					<li data-letter="M">M</li>
+					<li data-letter="N">N</li>
+					<li data-letter="O">O</li>
+					<li data-letter="P">P</li>
+					<li data-letter="Q">Q</li>
+					<li data-letter="R">R</li>
+					<li data-letter="S">S</li>
+					<li data-letter="T">T</li>
+					<li data-letter="U">U</li>
+					<li data-letter="V">V</li>
+					<li data-letter="W">W</li>
+					<li data-letter="X">X</li>
+					<li data-letter="Y">Y</li>
+					<li data-letter="Z">Z</li>
+				</ul>
 			</div>
-			<div class="pop-letter">L</div>
+			<div class="pop-letter" id="letter-tip" style="display: none;">L</div>
 			<div class="mod-cont-names">
 				<% _.each(data, function (val, key) { %>
 				<div class="mod-names">
@@ -185,9 +185,9 @@
 					<ul class="lists-name">
 						<% _.each(val, function (i, j) { %>
 						<li class="weui-panel__bd" data-id="<%=i.id%>">
-							<a href="javascript:void(0);" class="weui-media-box weui-media-box_appmsg">
-			                    <div class="weui-media-box__hd avatar">
-			                        <img class="weui-media-box__thumb" src="<%=i.avatar%>">
+							<a href="#user<%=i.id%>" class="weui-media-box weui-media-box_appmsg">
+			                    <div class="weui-media-box__hd bc-eee">
+			                        <!-- <img class="weui-media-box__thumb" src="<%=i.avatar%>"> -->
 			                    </div>
 			                    <div class="weui-media-box__bd">
 			                        <h4 class="weui-media-box__title"><%=i.name%></h4>

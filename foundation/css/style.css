@@ -169,7 +169,7 @@ body{
     display: box;
     box-orient: vertical;
 }
-.nav-a-z .nav-inner a{
+.nav-a-z .nav-inner li{
 	font-size: 12px;
     line-height: 14px;
     display: block;
@@ -195,7 +195,6 @@ body{
 	background: rgba(0,0,0,.5);
 	border-radius: 3px;
 	z-index: 99;
-	display: none;
 }
 .mod-cont-names h3{
 	height: 24px;
