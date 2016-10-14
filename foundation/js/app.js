@@ -219,7 +219,7 @@ $(function () {
             if ( DB[url] ) {
                 self.$el.html( self.tpl({data: DB[url]}) );
                 self.initEvent();
-                return this;
+                return false;
             }   
                      
             $.ajax({
@@ -242,8 +242,6 @@ $(function () {
                     .prev().remove();
                 }
             });
-
-            return this;
         },
         init: function (url) {
             var self = this;
@@ -262,8 +260,7 @@ $(function () {
         initEvent: function () {
             searchEvent(this.$el);
             this.letterNav();
-            this.myScroll = new IScroll('#wrapper', { mouseWheel: true });
-            return false;
+            this.myScroll = new IScroll('#wrapper', { mouseWheel: true, bounce: false, momentum: false, useTransform: false });
         },
         letterNav: function () {
             var self = this;
