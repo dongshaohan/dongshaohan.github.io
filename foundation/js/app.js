@@ -280,6 +280,7 @@ $(function () {
         },
         remove: function () {
             this.$el.off('click');
+            this.$el.remove();
             this.$el = null;
             return false;
         }
