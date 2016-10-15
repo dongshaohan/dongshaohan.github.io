@@ -452,7 +452,7 @@ $(function () {
 
             setTimeout(function () {
                 self.$el.html( self.tpl({data: data}) );
-            }, 400);
+            }, 450);
         },
         remove: function () {
             this.$el.off('click');
