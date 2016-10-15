@@ -428,6 +428,7 @@ $(function () {
                 $(pageManager._currentPage).removeClass('js_show').addClass('js_normal');
                 $(this).removeClass('slideIn').off('animationend webkitAnimationEnd');
                 pageManager._currentPage = url;
+                self.callback();
             });
 
             this.$el = $(url);
@@ -450,9 +451,9 @@ $(function () {
                 data = _.groupBy(arr, 'pinyin');
             }
 
-            setTimeout(function () {
+            this.callback = function () {
                 self.$el.html( self.tpl({data: data}) );
-            }, 500);
+            };
         },
         remove: function () {
             this.$el.off('click');
@@ -460,6 +461,7 @@ $(function () {
             this.$el = null;
             this.searchText = null;
             this.curhash = null;
+            this.callback = null;
             return false;
         }
     };
