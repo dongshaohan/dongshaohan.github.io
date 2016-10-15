@@ -447,7 +447,7 @@ $(function () {
 
             setTimeout(function () {
                 self.$el.html( self.tpl({data: data}) );
-            }, Conf.delay);
+            }, 300);
         },
         remove: function () {
             this.$el.off('click');
