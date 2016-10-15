@@ -52,23 +52,25 @@ $(function () {
     };
 
     function setJSAPI () {
-        // wx.config({
-        //     beta: true,
-        //     debug: false,
-        //     appId: res.appid,
-        //     timestamp: res.timestamp,
-        //     nonceStr: res.nonceStr,
-        //     signature: res.signature,
-        //     jsApiList: [
-        //         'onMenuShareTimeline',
-        //         'onMenuShareAppMessage',
-        //         'onMenuShareQQ',
-        //         'onMenuShareWeibo',
-        //         'onMenuShareQZone',
-        //         // 'setNavigationBarColor',
-        //         'setBounceBackground'
-        //     ]
-        // });
+        $.getJSON(Conf.domain + 'wechat/sign', function (res) {
+            wx.config({
+                beta: true,
+                debug: false,
+                appId: res.appid,
+                timestamp: res.timestamp,
+                nonceStr: res.nonceStr,
+                signature: res.signature,
+                jsApiList: [
+                    'onMenuShareTimeline',
+                    'onMenuShareAppMessage',
+                    'onMenuShareQQ',
+                    'onMenuShareWeibo',
+                    'onMenuShareQZone',
+                    'setBounceBackground'
+                ]
+            });
+        });
+        
         wx.ready(function () {
             
         });
@@ -76,6 +78,15 @@ $(function () {
 
     function setPageManager () {
         pageManager.init()
+    };
+
+    // 过滤输入信息
+    function removeHTMLTag (str) {
+        str = str.replace(/<script.*?>.*?<\/script>/ig, '');
+        str = str.replace(/<\/?[^>]*>/g, ''); // 去除HTML tag
+        str = str.replace(/[ | ]*\n/g, '\n'); // 去除行尾空白
+        str = str.replace(/ /ig, ''); // 去掉
+        return str;
     };
 
     function init () {
@@ -87,7 +98,8 @@ $(function () {
 
     // 域名配置
     var Conf = {
-        domain: 'http://test.skykingstars.com/foundation/'
+        domain: 'http://test.skykingstars.com/foundation/',
+        delay: 250
     };
 
     // 选择器
@@ -145,7 +157,10 @@ $(function () {
                     List.init(url);
                     break;
                 case 'user':
-                    
+                    User.init(url);
+                    break;
+                case 'sear':
+                    Search.init(url);
                     break;
             }
 
@@ -162,12 +177,16 @@ $(function () {
             .on('animationend webkitAnimationEnd', function () {
                 $(url).addClass('js_show').removeClass('js_normal');
                 $(this).addClass('js_normal').removeClass('slideOut js_show').off('animationend webkitAnimationEnd');
+
                 switch( self._currentPage.substr(1, 4) ) {
                     case 'list':
                         List.remove();
                         break;
                     case 'user':
-                        
+                        User.remove();
+                        break;
+                    case 'sear':
+                        Search.remove();
                         break;
                 }
                 self._currentPage = url;
@@ -185,6 +204,16 @@ $(function () {
             }
             return page;
         }
+    };
+
+    // 搜索调用函数
+    window.searchFunc = function (self) {
+        if ( !self.value ) return false;
+        console.log(self.value);
+
+        Search.curhash = location.hash.indexOf('#') === 0 ? location.hash : '#home';
+        Search.searchText = removeHTMLTag(self.value);
+        pageManager.go('searchRes');
     };
 
     // 搜索事件公用
@@ -217,10 +246,10 @@ $(function () {
             var self = this;
             
             if ( DB[url] ) {
-                self.$el.html( self.tpl({data: DB[url]}) );
+                self.$el.html( self.tpl({data: _.groupBy(DB[url], 'pinyin')}) );
                 self.initEvent();
                 return false;
-            }   
+            };   
                      
             $.ajax({
                 type: 'POST',
@@ -230,12 +259,12 @@ $(function () {
                 timeout: 2000,
                 success: function (result) {
                     console.log(result.data);
+                    DB[url] = result.data;
                     var d = _.groupBy(result.data, 'pinyin');
-                    DB[url] = d;
                     setTimeout(function () {
                         self.$el.html( self.tpl({data: d}) );
                         self.initEvent();
-                    }, 200);
+                    }, Conf.delay);
                 },
                 error: function (xhr, type) {
                     self.$el.find('.error').removeClass('f-hide')
@@ -287,6 +316,143 @@ $(function () {
             this.$el.remove();
             this.$el = null;
             this.myScroll = null;
+            return false;
+        }
+    };
+
+    // 用户详情类
+    var User = {
+        tpl: _.template( $('#tpl_user').html() ),
+        get: function (url) {
+            var self = this;
+            
+            if ( DB[url] ) {
+                self.$el.html( self.tpl({data: DB[url]}) );
+                self.initEvent();
+                return false;
+            }   
+                     
+            $.ajax({
+                type: 'POST',
+                url: Conf.domain + 'user/' + url.substr(5),
+                dataType: 'json',
+                timeout: 2000,
+                success: function (result) {
+                    console.log(result.data);
+                    DB[url] = result.data;
+                    setTimeout(function () {
+                        self.$el.html( self.tpl({data: result.data}) );
+                        self.initEvent();
+                    }, Conf.delay);
+                },
+                error: function (xhr, type) {
+                    self.$el.find('.error').removeClass('f-hide')
+                    .prev().remove();
+                }
+            });
+        },
+        init: function (url) {
+            var self = this;
+
+            $(jQ.Tplbase).addClass('slideIn js_show').attr('id', url.substr(1))
+            .appendTo(jQ.$container)
+            .on('animationend webkitAnimationEnd', function () {
+                $(pageManager._currentPage).removeClass('js_show').addClass('js_normal');
+                $(this).removeClass('slideIn').off('animationend webkitAnimationEnd');
+                pageManager._currentPage = url;
+            });
+
+            this.$el = $(url);
+            this.get(url);
+        },
+        initEvent: function () {
+            
+        },
+        remove: function () {
+            this.$el.off('click');
+            this.$el.remove();
+            this.$el = null;
+            return false;
+        }
+    };
+
+    // 搜索结果类
+    var Search = {
+        tpl: _.template( $('#tpl_search').html() ),
+        get: function () {
+            var self = this;
+            
+            if ( this.curhash.substr(1, 4) == 'list' ) {
+                this.listSearch();
+                return false;
+            }
+
+            $.ajax({
+                type: 'POST',
+                url: Conf.domain + 'user',
+                data: {
+                    searchCondition: self.searchText
+                },
+                dataType: 'json',
+                timeout: 2000,
+                success: function (result) {
+                    var d = null;
+
+                    if ( result.data.length == 0 ) {
+                        d = null;
+                    } else {
+                        d = _.groupBy(result.data, 'pinyin');
+                    }
+                    
+                    setTimeout(function () {
+                        self.$el.html( self.tpl({data: d}) );
+                    }, Conf.delay);
+                },
+                error: function (xhr, type) {
+                    self.$el.find('.error').removeClass('f-hide')
+                    .prev().remove();
+                }
+            });
+        },
+        init: function (url) {
+            var self = this;
+
+            $(jQ.Tplbase).addClass('slideIn js_show').attr('id', url.substr(1))
+            .appendTo(jQ.$container)
+            .on('animationend webkitAnimationEnd', function () {
+                $(pageManager._currentPage).removeClass('js_show').addClass('js_normal');
+                $(this).removeClass('slideIn').off('animationend webkitAnimationEnd');
+                pageManager._currentPage = url;
+            });
+
+            this.$el = $(url);
+            this.get();
+        },
+        listSearch: function () {
+            var self = this;
+            var arr = [];
+            var data = null;
+
+            _.each(DB[this.curhash], function (val, index) {
+                if ( val.name.indexOf(self.searchText) != -1 || self.searchText == val.userid ) {
+                    arr.push(val);
+                }
+            });
+
+            if ( arr.length == 0 ) {
+                data = null;
+            } else {
+                data = _.groupBy(arr, 'pinyin');
+            }
+        
+            this.$el.html( this.tpl({data: data}) );
+        },
+        remove: function () {
+            this.$el.off('click');
+            this.$el.remove();
+            this.$el = null;
+            this.searchText = null;
+            this.curhash = null;
             return false;
         }
     };
