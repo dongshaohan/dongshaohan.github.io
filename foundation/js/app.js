@@ -100,7 +100,7 @@ $(function () {
     var Conf = {
         domain: 'http://test.skykingstars.com/foundation/',
         delay: 250,
-        timer: 330
+        timer: 310
     };
 
     // 选择器
@@ -292,7 +292,7 @@ $(function () {
         initEvent: function () {
             searchEvent(this.$el);
             this.letterNav();
-            this.myScroll = new IScroll('#wrapper', { mouseWheel: true });
+            this.myScroll = new IScroll('#wrapper', { mouseWheel: true, click: true });
         },
         letterNav: function () {
             var self = this;
