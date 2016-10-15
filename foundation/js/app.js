@@ -99,7 +99,8 @@ $(function () {
     // 域名配置
     var Conf = {
         domain: 'http://test.skykingstars.com/foundation/',
-        delay: 250
+        delay: 250,
+        timer: 330
     };
 
     // 选择器
@@ -246,8 +247,10 @@ $(function () {
             var self = this;
             
             if ( DB[url] ) {
-                self.$el.html( self.tpl({data: _.groupBy(DB[url], 'pinyin')}) );
-                self.initEvent();
+                setTimeout(function () {
+                    self.$el.html( self.tpl({data: _.groupBy(DB[url], 'pinyin')}) );
+                    self.initEvent();
+                }, Conf.timer);
                 return false;
             };   
                      
@@ -327,8 +330,10 @@ $(function () {
             var self = this;
             
             if ( DB[url] ) {
-                self.$el.html( self.tpl({data: DB[url]}) );
-                self.initEvent();
+                setTimeout(function () {
+                    self.$el.html( self.tpl({data: DB[url]}) );
+                    self.initEvent();
+                }, Conf.timer);
                 return false;
             }   
                      
@@ -447,7 +452,7 @@ $(function () {
 
             setTimeout(function () {
                 self.$el.html( self.tpl({data: data}) );
-            }, 300);
+            }, Conf.timer);
         },
         remove: function () {
             this.$el.off('click');
