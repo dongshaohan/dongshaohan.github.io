@@ -444,8 +444,10 @@ $(function () {
             } else {
                 data = _.groupBy(arr, 'pinyin');
             }
-        
-            this.$el.html( this.tpl({data: data}) );
+
+            setTimeout(function () {
+                self.$el.html( self.tpl({data: data}) );
+            }, Conf.delay);
         },
         remove: function () {
             this.$el.off('click');
