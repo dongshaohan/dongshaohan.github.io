@@ -55,7 +55,7 @@ $(function () {
         $.getJSON(Conf.domain + 'wechat/sign', function (res) {
             DB['jsapi'] = res;
             wx.config({
-                debug: true,
+                debug: false,
                 appId: res.appid,
                 timestamp: res.timestamp,
                 nonceStr: res.nonceStr,
