@@ -63,16 +63,21 @@ $(function () {
                 jsApiList: [
                     'onMenuShareTimeline',
                     'onMenuShareAppMessage',
-                    'onMenuShareQQ',
-                    'onMenuShareWeibo',
-                    'onMenuShareQZone',
-                    'setBounceBackground'
+                    // 'onMenuShareQQ',
+                    // 'onMenuShareWeibo',
+                    // 'onMenuShareQZone',
+                    // 'setBounceBackground'
                 ]
             });
         });
         
         wx.ready(function () {
-            
+            wx.onMenuShareAppMessage({
+                title: 'WeUI',
+                desc: '为微信 Web 服务量身设计',
+                link: location.href,
+                imgUrl: 'https://mmbiz.qpic.cn/mmemoticon/ajNVdqHZLLA16apETUPXh9Q5GLpSic7lGuiaic0jqMt4UY8P4KHSBpEWgM7uMlbxxnVR7596b3NPjUfwg7cFbfCtA/0'
+            });
         });
     };
 
@@ -371,7 +376,27 @@ $(function () {
             this.get(url);
         },
         initEvent: function () {
-            
+            this.$el.on('click', '.sendMessege', function () {
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://qyapi.weixin.qq.com/cgi-bin/chat/create?access_token=ACCESS_TOKEN',
+                    data: {
+                        "chatid": "1",
+                        "name": "企业应用中心",
+                        "owner": "zhangsan",
+                        "userlist": ["zhangsan","lisi","wangwu"]
+                    },
+                    dataType: 'json',
+                    timeout: 2000,
+                    success: function (result) {
+                        
+                    },
+                    error: function (xhr, type) {
+                        
+                    }
+                });
+            });
         },
         remove: function () {
             this.$el.off('click');
