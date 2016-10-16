@@ -333,7 +333,7 @@ $(function () {
             if ( DB[url] ) {
                 setTimeout(function () {
                     self.$el.html( self.tpl({data: DB[url]}) );
-                    self.initEvent();
+                    self.initEvent(DB[url]);
                 }, Conf.timer);
                 return false;
             }   
@@ -348,7 +348,7 @@ $(function () {
                     DB[url] = result.data;
                     setTimeout(function () {
                         self.$el.html( self.tpl({data: result.data}) );
-                        self.initEvent();
+                        self.initEvent(result.data);
                     }, Conf.delay);
                 },
                 error: function (xhr, type) {
@@ -371,10 +371,11 @@ $(function () {
             this.$el = $(url);
             this.get(url);
         },
-        initEvent: function () {
+        initEvent: function (data) {
             this.$el.on('click', '.sendMessege', function () {
+                alert('点击成功')
                 wx.openEnterpriseChat({
-                    userIds: '殷姗姗', 
+                    userIds: data.userid, 
                     groupName: "",  //
                     success: function(res) {
                         alert('打开会话成功')
