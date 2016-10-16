@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
     <meta name="format-detection" content="telephone=no, email=no" />
-    <title></title>
+    <title>通讯录</title>
     <link rel="stylesheet" href="css/weui.css"/>
     <link rel="stylesheet" href="css/style.css"/>
 </head>
@@ -57,10 +57,12 @@
 		                    	<% } else { %>
 		                    	<i class="icon-arrow-no"></i>
 		                    	<% } %>
-		                    	<%=a.departmentName%>
+		                    	<span><%=a.departmentName%></span>
 		                    </p>
 		                </div>
-		                <div class="weui-cell__ft"></div>
+		                <a href="#list<%=a.id%>">
+		                	<div class="weui-cell__ft"></div>
+		                </a>
 		            </div>
 		            <% if ( a.children ) { %>
 		            <div class="f-hide"> 
@@ -75,10 +77,12 @@
 					                    	<% } else { %>
 					                    	<i class="icon-arrow-no"></i>
 		                    				<% } %>
-					                    	<%=b.departmentName%>
+		                    				<span><%=b.departmentName%></span>
 					                    </p>
 					                </div>
-					                <div class="weui-cell__ft"></div>
+					                <a href="#list<%=b.id%>">
+					                	<div class="weui-cell__ft"></div>
+					                </a>
 					            </div>
 					            <% if ( b.children ) { %>
 					           	<div class="f-hide">
@@ -93,10 +97,12 @@
 								                    	<% } else { %>
 								                    	<i class="icon-arrow-no"></i>
 					                    				<% } %>
-								                    	<%=c.departmentName%>
+					                    				<span><%=c.departmentName%></span>
 								                    </p>
 								                </div>
-								                <div class="weui-cell__ft"></div>
+								                <a href="#list<%=c.id%>">
+								                	<div class="weui-cell__ft"></div>
+								                </a>
 								            </div> 
 								            <% if ( c.children ) { %>
 								            <div class="f-hide">
@@ -105,10 +111,37 @@
 													<li>
 														<div class="weui-cell weui-cell_access">
 											                <div class="weui-cell__bd" data-id="<%=d.id%>">
-											                    <p><i class="icon-arrow-no"></i><%=d.departmentName%></p>
+											                    <p>
+											                    	<% if ( d.children ) { %>
+											                    	<i class="icon"></i>
+											                    	<% } else { %>
+											                    	<i class="icon-arrow-no"></i>
+								                    				<% } %>
+								                    				<span><%=d.departmentName%></span>
+											                    </p>
 											                </div>
-											                <div class="weui-cell__ft"></div>
+											                <a href="#list<%=d.id%>">
+											                	<div class="weui-cell__ft"></div>
+											                </a>
 											            </div> 
+											            <% if ( d.children ) { %>
+											            <div class="f-hide">
+												            <% _.each(d.children, function (e, p) { %>
+															<ul>
+																<li>
+																	<div class="weui-cell weui-cell_access">
+														                <div class="weui-cell__bd" data-id="<%=e.id%>">
+														                    <p><i class="icon-arrow-no"></i><%=e.departmentName%></p>
+														                </div>
+														                <a href="#list<%=e.id%>">
+														                	<div class="weui-cell__ft"></div>
+														                </a>
+														            </div> 
+																</li>
+															</ul>
+															<% }) %>
+														</div>
+														<% } %>
 													</li>
 												</ul>
 												<% }) %>
@@ -146,6 +179,7 @@
 	            <a href="javascript:" class="weui-search-bar__cancel-btn searchCancel">取消</a>
 	        </div>
 		</div>
+		<% if ( data ) { %>
 		<div class="mod-cont">
 			<div class="nav-a-z">
 				<ul class="nav-inner">
@@ -203,6 +237,11 @@
 					</ul>
 				</div>
 			</div>
+			<% } else { %>
+			<div class="mod-cont mod-noresult">	
+				<p class="tips">当前部门暂无成员</p>
+			</div>
+			<% } %>
 		</div>
 	</script>
 	<script type="text/html" id="tpl_user">
@@ -274,6 +313,6 @@
 	<script type="text/javascript" src="js/zepto.min.js"></script>
 	<script type="text/javascript" src="js/underscore-min.js"></script>
 	<script type="text/javascript" src="js/iscroll.js"></script>
-	<script type="text/javascript" src="js/app.js"></script>
+	<script type="text/javascript" src="js/app.js?v=2017"></script>
 </body>
 </html>

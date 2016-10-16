@@ -53,22 +53,8 @@ $(function () {
 
     function getJSAPI () {
         $.getJSON(Conf.domain + 'wechat/sign', function (res) {
-            DB['jsapi'] = res;
-            wx.config({
-                debug: false,
-                appId: res.appid,
-                timestamp: res.timestamp,
-                nonceStr: res.nonceStr,
-                signature: res.signature,
-                jsApiList: [
-                    'openEnterpriseChat',
-                    'hideOptionMenu'
-                ]
-            });
-        });
-
-        wx.ready(function () {
-            wx.hideOptionMenu();
+            DB['jsapi'] = res.data;
+            setJSAPI();
         });
     };
 
@@ -85,9 +71,9 @@ $(function () {
             ]
         });
         
-        // wx.ready(function () {
-        //     wx.hideOptionMenu();
-        // });
+        wx.ready(function () {
+            wx.hideOptionMenu();
+        });
     };
 
     function setPageManager () {
@@ -114,7 +100,7 @@ $(function () {
     var Conf = {
         domain: 'http://test.skykingstars.com/foundation/',
         delay: 250,
-        timer: 310
+        timer: 330
     };
 
     // 选择器
@@ -263,8 +249,12 @@ $(function () {
             
             if ( DB[url] ) {
                 setTimeout(function () {
-                    self.$el.html( self.tpl({data: _.groupBy(DB[url], 'pinyin')}) );
-                    self.initEvent();
+                    if ( DB[url].length > 0 ) {
+                        self.$el.html( self.tpl({data: _.groupBy(DB[url], 'pinyin')}) );
+                        self.initEvent();
+                    } else {
+                        self.$el.html( self.tpl({data: null}) );
+                    }
                 }, Conf.timer);
                 return false;
             };   
@@ -278,10 +268,14 @@ $(function () {
                 success: function (result) {
                     console.log(result.data);
                     DB[url] = result.data;
-                    var d = _.groupBy(result.data, 'pinyin');
+
                     setTimeout(function () {
-                        self.$el.html( self.tpl({data: d}) );
-                        self.initEvent();
+                        if ( result.data.length > 0 ) {
+                            self.$el.html( self.tpl({data: _.groupBy(result.data, 'pinyin')}) );
+                            self.initEvent();
+                        } else {
+                            self.$el.html( self.tpl({data: null}) );
+                        }
                     }, Conf.delay);
                 },
                 error: function (xhr, type) {
@@ -387,15 +381,13 @@ $(function () {
         },
         initEvent: function (data) {
             this.$el.on('click', '.sendMessege', function () {
-                alert('4')
                 wx.openEnterpriseChat({
-                    userIds: 'wuzhengquan;dongshaohan', 
+                    userIds: 'wuzhenquan;dongshaohan', 
                     groupName: '吴振全', 
                     success: function(res) {
-                        alert('打开会话成功')
+                      
                     },
                     fail: function(res) {
-                        alert(JSON.stringify(res))
                         if( res.errMsg.indexOf('function not exist') > -1 ) {
                             alert('版本过低请升级')
                         }
@@ -508,6 +500,7 @@ $(function () {
                 dataType: 'json',
                 timeout: 2000,
                 success: function (result) {
+                    console.log(result.data);
                     self.$el.html( self.tpl({data: result.data}) ); 
                     init();
                 },
@@ -531,8 +524,8 @@ $(function () {
         initEvent: function () {
             var self = this;
 
-            this._bind('click', '.weui-cell', function () {
-                var $next = $(this).next();
+            this._bind('click', '.weui-cell p', function () {
+                var $next = $(this).parent().parent().next();
 
                 if ( $next.length == 0 ) return false;
                 

@@ -135,6 +135,8 @@ body{
 }
 .mod-lists .weui-cell__ft{
 	margin-right: 15px;
+	width: 15px;
+	height: 35px;
 }
 
 .mod-lists li p i{
