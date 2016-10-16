@@ -369,7 +369,7 @@ $(function () {
         initEvent: function (data) {
             console.log(data.userid);
             this.$el.on('click', '.sendMessege', function () {
-                alert('2')
+                alert('3')
                 wx.openEnterpriseChat({
                     userIds: 'wuzhengquan;dongshaohan', 
                     groupName: '吴振全', 
@@ -377,7 +377,7 @@ $(function () {
                         alert('打开会话成功')
                     },
                     fail: function(res) {
-                        alert('打开会话失败')
+                        alert(JSON.stringify(res))
                         if( res.errMsg.indexOf('function not exist') > -1 ) {
                             alert('版本过低请升级')
                         }
