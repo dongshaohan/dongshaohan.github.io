@@ -51,8 +51,9 @@ $(function () {
         }
     };
 
-    function setJSAPI () {
+    function getJSAPI () {
         $.getJSON(Conf.domain + 'wechat/sign', function (res) {
+            DB['jsapi'] = res;
             wx.config({
                 debug: true,
                 appId: res.appid,
@@ -64,6 +65,24 @@ $(function () {
                     'hideOptionMenu'
                 ]
             });
+        });
+
+        wx.ready(function () {
+            wx.hideOptionMenu();
+        });
+    };
+
+    function setJSAPI () {
+        wx.config({
+            debug: true,
+            appId: DB['jsapi'].appid,
+            timestamp: DB['jsapi'].timestamp,
+            nonceStr: DB['jsapi'].nonceStr,
+            signature: DB['jsapi'].signature,
+            jsApiList: [
+                'openEnterpriseChat',
+                'hideOptionMenu'
+            ]
         });
         
         wx.ready(function () {
@@ -87,7 +106,7 @@ $(function () {
     function init () {
         fastClick();
         androidInputBugFix();
-        setJSAPI();
+        getJSAPI();
         setPageManager();
     };
 
