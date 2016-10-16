@@ -371,8 +371,8 @@ $(function () {
             this.$el.on('click', '.sendMessege', function () {
                 alert('1')
                 wx.openEnterpriseChat({
-                    userIds: data.userid, 
-                    groupName: data.name, 
+                    userIds: 'wuzhengquan', 
+                    groupName: '吴振全', 
                     success: function(res) {
                         alert('打开会话成功')
                     },
