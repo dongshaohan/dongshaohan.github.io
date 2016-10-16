@@ -54,8 +54,7 @@ $(function () {
     function setJSAPI () {
         $.getJSON(Conf.domain + 'wechat/sign', function (res) {
             wx.config({
-                beta: true,
-                debug: false,
+                debug: true,
                 appId: res.appid,
                 timestamp: res.timestamp,
                 nonceStr: res.nonceStr,
@@ -125,6 +124,7 @@ $(function () {
                 } else {
                     self._go(url);
                 }
+                setJSAPI();
             });
 
             if ( history.state && history.state._pageIndex ) {
