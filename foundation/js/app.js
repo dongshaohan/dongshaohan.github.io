@@ -61,22 +61,18 @@ $(function () {
                 nonceStr: res.nonceStr,
                 signature: res.signature,
                 jsApiList: [
-                    'onMenuShareTimeline',
-                    'onMenuShareAppMessage',
-                    // 'onMenuShareQQ',
-                    // 'onMenuShareWeibo',
-                    // 'onMenuShareQZone',
-                    // 'setBounceBackground'
+                    'openEnterpriseChat'
                 ]
             });
         });
         
         wx.ready(function () {
-            wx.onMenuShareAppMessage({
-                title: 'WeUI',
-                desc: '为微信 Web 服务量身设计',
-                link: location.href,
-                imgUrl: 'https://mmbiz.qpic.cn/mmemoticon/ajNVdqHZLLA16apETUPXh9Q5GLpSic7lGuiaic0jqMt4UY8P4KHSBpEWgM7uMlbxxnVR7596b3NPjUfwg7cFbfCtA/0'
+            wx.checkJsApi({
+                jsApiList: ['openEnterpriseChat'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+                success: function(res) {
+                    // 以键值对的形式返回，可用的api值true，不可用为false
+                    // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+                }
             });
         });
     };
@@ -377,23 +373,16 @@ $(function () {
         },
         initEvent: function () {
             this.$el.on('click', '.sendMessege', function () {
-
-                $.ajax({
-                    type: 'POST',
-                    url: 'https://qyapi.weixin.qq.com/cgi-bin/chat/create?access_token=ACCESS_TOKEN',
-                    data: {
-                        "chatid": "1",
-                        "name": "企业应用中心",
-                        "owner": "zhangsan",
-                        "userlist": ["zhangsan","lisi","wangwu"]
+                wx.openEnterpriseChat({
+                    userIds: '殷姗姗', 
+                    groupName: "",  //
+                    success: function(res) {
+                        alert('打开会话成功')
                     },
-                    dataType: 'json',
-                    timeout: 2000,
-                    success: function (result) {
-                        
-                    },
-                    error: function (xhr, type) {
-                        
+                    fail: function(res) {
+                        if( res.errMsg.indexOf('function not exist') > -1 ) {
+                            alert('版本过低请升级')
+                        }
                     }
                 });
             });
