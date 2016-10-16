@@ -386,9 +386,8 @@ $(function () {
             this.get(url);
         },
         initEvent: function (data) {
-            console.log(data.userid);
             this.$el.on('click', '.sendMessege', function () {
-                alert('3')
+                alert('4')
                 wx.openEnterpriseChat({
                     userIds: 'wuzhengquan;dongshaohan', 
                     groupName: '吴振全', 
