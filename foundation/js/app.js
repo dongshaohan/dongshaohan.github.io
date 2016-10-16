@@ -73,9 +73,8 @@ $(function () {
     };
 
     function setJSAPI () {
-        alert(111)
         wx.config({
-            debug: true,
+            debug: false,
             appId: DB['jsapi'].appid,
             timestamp: DB['jsapi'].timestamp,
             nonceStr: DB['jsapi'].nonceStr,
