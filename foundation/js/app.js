@@ -73,6 +73,7 @@ $(function () {
     };
 
     function setJSAPI () {
+        alert(111)
         wx.config({
             debug: true,
             appId: DB['jsapi'].appid,
@@ -85,9 +86,9 @@ $(function () {
             ]
         });
         
-        wx.ready(function () {
-            wx.hideOptionMenu();
-        });
+        // wx.ready(function () {
+        //     wx.hideOptionMenu();
+        // });
     };
 
     function setPageManager () {
