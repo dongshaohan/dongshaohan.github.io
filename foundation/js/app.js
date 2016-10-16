@@ -62,7 +62,7 @@ $(function () {
                 signature: res.signature,
                 jsApiList: [
                     'openEnterpriseChat',
-                    // 'hideOptionMenu'
+                    'hideOptionMenu'
                 ]
             });
         });
@@ -369,14 +369,15 @@ $(function () {
         initEvent: function (data) {
             console.log(data.userid);
             this.$el.on('click', '.sendMessege', function () {
-                alert('1')
+                alert('2')
                 wx.openEnterpriseChat({
-                    userIds: 'wuzhengquan', 
+                    userIds: 'wuzhengquan;dongshaohan', 
                     groupName: '吴振全', 
                     success: function(res) {
                         alert('打开会话成功')
                     },
                     fail: function(res) {
+                        alert('打开会话失败')
                         if( res.errMsg.indexOf('function not exist') > -1 ) {
                             alert('版本过低请升级')
                         }
