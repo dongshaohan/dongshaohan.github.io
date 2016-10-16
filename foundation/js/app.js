@@ -62,7 +62,7 @@ $(function () {
                 signature: res.signature,
                 jsApiList: [
                     'openEnterpriseChat',
-                    'hideOptionMenu'
+                    // 'hideOptionMenu'
                 ]
             });
         });
@@ -367,11 +367,12 @@ $(function () {
             this.get(url);
         },
         initEvent: function (data) {
+            console.log(data.userid);
             this.$el.on('click', '.sendMessege', function () {
-                alert('点击成功')
+                alert('1')
                 wx.openEnterpriseChat({
                     userIds: data.userid, 
-                    groupName: "", 
+                    groupName: data.name, 
                     success: function(res) {
                         alert('打开会话成功')
                     },
