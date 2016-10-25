@@ -90,7 +90,7 @@ $(function () {
     };
 
     function init () {
-        fastClick();
+        // fastClick();
         androidInputBugFix();
         getJSAPI();
         setPageManager();
@@ -213,6 +213,7 @@ $(function () {
         if ( !self.value ) return false;
         console.log(self.value);
 
+        $(self).blur();
         Search.curhash = location.hash.indexOf('#') === 0 ? location.hash : '#home';
         Search.searchText = removeHTMLTag(self.value);
         pageManager.go('searchRes');
@@ -220,7 +221,7 @@ $(function () {
 
     // 搜索事件公用
     function searchEvent ($el) {
-        $el.on('click', '.searchText', function () {
+        $el.on('tap', '.searchText', function () {
             $el.find('.searchBar').addClass('weui-search-bar_focusing');
             $el.find('.searchInput').focus();
         })
@@ -231,10 +232,10 @@ $(function () {
                 $el.find('.searchText').show();
             }
         })
-        .on('click', '.searchClear', function () {
+        .on('tap', '.searchClear', function () {
             $el.find('.searchInput').val('').focus();
         })
-        .on('click', '.searchCancel', function () {
+        .on('tap', '.searchCancel', function () {
             $el.find('.searchInput').val('').blur();
             $el.find('.searchBar').removeClass('weui-search-bar_focusing');
             $el.find('.searchText').show();
@@ -307,7 +308,7 @@ $(function () {
             var self = this;
             var timer = null;
         
-            this.$el.on('click', '.nav-inner', function (e) {
+            this.$el.on('tap', '.nav-inner', function (e) {
                 var $tip = $('#letter-tip');
                 var $list = $('#contactList');
                 var letter = e.target.textContent;
@@ -324,7 +325,7 @@ $(function () {
             });
         },
         remove: function () {
-            this.$el.off('click');
+            this.$el.off('tap');
             this.$el.remove();
             this.$el = null;
             this.myScroll = null;
@@ -380,10 +381,10 @@ $(function () {
             this.get(url);
         },
         initEvent: function (data) {
-            this.$el.on('click', '.sendMessege', function () {
+            this.$el.on('tap', '.sendMessege', function () {
                 wx.openEnterpriseChat({
-                    userIds: 'wuzhenquan;dongshaohan', 
-                    groupName: '吴振全', 
+                    userIds: data.userid, 
+                    groupName: data.name, 
                     success: function(res) {
                       
                     },
@@ -396,7 +397,7 @@ $(function () {
             });
         },
         remove: function () {
-            this.$el.off('click');
+            this.$el.off('tap');
             this.$el.remove();
             this.$el = null;
             return false;
@@ -450,7 +451,6 @@ $(function () {
                 $(pageManager._currentPage).removeClass('js_show').addClass('js_normal');
                 $(this).removeClass('slideIn').off('animationend webkitAnimationEnd');
                 pageManager._currentPage = url;
-                self.callback();
             });
 
             this.$el = $(url);
@@ -473,12 +473,12 @@ $(function () {
                 data = _.groupBy(arr, 'pinyin');
             }
 
-            this.callback = function () {
+            setTimeout(function () {
                 self.$el.html( self.tpl({data: data}) );
-            };
+            }, Conf.timer);
         },
         remove: function () {
-            this.$el.off('click');
+            this.$el.off('tap');
             this.$el.remove();
             this.$el = null;
             this.searchText = null;
@@ -524,7 +524,7 @@ $(function () {
         initEvent: function () {
             var self = this;
 
-            this._bind('click', '.weui-cell p', function () {
+            this._bind('tap', '.weui-cell p', function () {
                 var $next = $(this).parent().parent().next();
 
                 if ( $next.length == 0 ) return false;
@@ -537,7 +537,7 @@ $(function () {
                     $(this).find('i').addClass('icon').removeClass('icon-arrow');
                 }
             })
-            ._bind('click', '.weui-cell__bd', function () {
+            ._bind('tap', '.weui-cell__bd', function () {
                 if ( $(this).find('i').hasClass('icon-arrow-no') ) {
                     var id = $(this).data('id');
                     pageManager.go('list' + id);
