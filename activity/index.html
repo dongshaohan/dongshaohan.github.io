@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta content="yes" name="apple-mobile-web-app-capable">
+        <meta content="yes" name="apple-touch-fullscreen">
+        <meta content="telephone=no,email=no" name="format-detection">
+        <script src="js/flexible.js"></script>
+        <!-- <link rel="apple-touch-icon" href="favicon.png"> -->
+        <!-- <link rel="Shortcut Icon" href="favicon.png" type="image/x-icon"> -->
+        <title>送祝福，造蛋糕</title>
+        <link rel="stylesheet" href="css/page.css?v=2016"/>
+    </head>
+    <body>
+   		<img src="img/icon_share.png" class="hide" width="144" />
+        <section class="container" id="container"></section>	
+
+        <script type="text/html" id="indexTpl">
+        	<!-- 首页[[ -->
+	        <section class="wrap index">
+				<h1 class="hide">暨南大学建校110周年</h1>
+				<!-- 二层，三层，四层，五层蛋糕分别用类名box-cake2、box-cake3、box-cake4、box-cake5 -->
+				<% if ( data.cakeLayer == 2 ) { %>
+				<div class="box-cake box-cake2">
+				<% } else if ( data.cakeLayer == 3 ) { %>
+				<div class="box-cake box-cake3">
+				<% } else if ( data.cakeLayer == 4 ) { %>
+				<div class="box-cake box-cake4">
+				<% } else if ( data.cakeLayer == 5 ) { %>
+				<div class="box-cake box-cake5">
+				<% } %>
+					<div class="cake">
+						<span class="lazhu"></span>
+					</div>
+				</div>
+				<div class="box-caidai"></div>
+				<div class="box-scroll" id="wish-area"></div>
+				<div class="box-info">
+					<% if ( data.myGreetingSequenceNum != -1 ) { %>
+					目前有<strong><%=data.greetingCount%></strong>人给母校送了祝福，您是第<strong><%=data.myGreetingSequenceNum%></strong>个发的祝福
+					<% } else { %>
+					<p class="el-tips">目前有<strong><%=data.greetingCount%></strong>人给母校送了祝福</p>
+					<a class="sprite btn-send" href="javascript:;">送祝福，造蛋糕</a>
+					<% } %>
+				</div>
+				<p class="sprite copyright">暨南大学学生处  |  暨南微校</p>
+			</section>
+			<!-- 首页]] -->
+			<% if ( data.myGreetingSequenceNum == -1 ) { %>
+			<!-- 内页]] -->
+			<section class="wrap page hide" id="wishInput">	
+				<div class="page-inner">
+					<h2>写下你对暨大110周年校庆祝福：</h2>
+					<textarea class="txt-wishes" placeholder="祝福语不能为空！"></textarea>
+	                <button class="btn-wishes">发表</button>
+                </div>
+			</section>
+			<!-- 内页]] -->
+			<% } %>
+			<div class="popbox-share hide">
+				<div class="box-share"></div>
+			</div>
+        </script>
+        <script type="text/html" id="wish-list">
+        	<span class="info-girl slideIn" style="top: <%=random%>%"><%=data.greetings%></span>
+        </script>
+		<script src="js/zepto.min.js"></script>
+		<script src="js/zepto.ghostclick.min.js"></script>
+		<script src="js/underscore-min.js"></script>
+		<script src="js/app.js?v=2016"></script>
+    </body>
+</html>
+
