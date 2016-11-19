@@ -1,7 +1,18 @@
 /* reset */
+* {
+	-webkit-touch-callout: none;
+	-webkit-text-size-adjust: none;
+	-webkit-tap-highlight-color: transparent;
+}
+html,body{
+	-webkit-text-size-adjust: 100%;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+input, textarea{-webkit-appearance: @none;}
 a{
 	text-decoration: none;
 	color: #666;
+	-webkit-tap-highlight-color: transparent;
 }
 ul,li{
 	list-style: none;
@@ -24,15 +35,14 @@ body{
     right: 0;
     bottom: 0;
     left: 0;
-    overflow-y: auto;
+    overflow: hidden;
     background-color: #fff;
-    -webkit-overflow-scrolling: touch;
 }
 .page.js_show {
-    z-index: 2;
+    z-index: 20;
 }
 .page.js_normal {
-    z-index: 1;
+    z-index: 10;
 }
 @-webkit-keyframes a {
 	0% { -webkit-transform: translate3d(100%, 0, 0); transform: translate3d(100%, 0, 0); opacity: 0 }
@@ -50,15 +60,15 @@ body{
 	0% { -webkit-transform: translateZ(0); transform: translateZ(0); opacity: 1 }
 	to { -webkit-transform: translate3d(100%, 0, 0); transform: translate3d(100%, 0, 0); opacity: 0 }
 }
-.page.slideIn { -webkit-animation: a .3s forwards; animation: a .3s forwards }
-.page.slideOut { -webkit-animation: b .4s forwards; animation: b .4s forwards }
+.page.slideIn { -webkit-animation: a 0.3s forwards 0.05s; animation: a 0.3s forwards 0.05s }
+.page.slideOut { -webkit-animation: b 0.4s forwards; animation: b 0.4s forwards }
 .avatar {
 	background: url(../img/avatar.png) 0 0 no-repeat;
 }
 .scrollWrap {
 	position: absolute;
 	z-index: 1;
-	top: 44px;
+	top: 0px;
 	bottom: 0px;
 	left: 0;
 	right: 0;
@@ -82,19 +92,27 @@ body{
 
 .wrap{width: 100%;color: #333;}
 .mod-search{
-	position: fixed;
+	position: absolute;
 	left: 0;
+	right: 0;
 	top: 0;
+	bottom: 44px;
 	width: 100%;
-	height: 44px;
-	z-index: 6;
+	z-index: 3;
 }
 .weui-search-bar__cancel-btn{
 	color: #666;
 }
 .mod-cont{
-	margin-top: 44px;
-	background: #fff;
+	position: absolute;
+	top: 44px;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 100%;
+	z-index: 6;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
 }
 
 
@@ -117,6 +135,9 @@ body{
 .mod-lists .weui-cell{
 	padding: 5px 0;
 	margin-left: 15px;
+}
+.mod-lists .weui-cell_access{
+	-webkit-tap-highlight-color:transparent;
 }
 .mod-lists .weui-cell:after{
 	content: '';
@@ -183,7 +204,7 @@ body{
     right: 0;
     top: 0;
     bottom: 0;
-    padding: 50px 0 25px;
+    padding: 15px 0 15px;
     width: 28px;
     height: 100%;
     /*line-height: 1.2;*/
@@ -191,7 +212,7 @@ body{
     box-sizing: border-box;
     color: #06a2d0;
     background: #fff;
-    z-index: 4;
+    z-index: 2;
 }
 .nav-a-z .nav-inner{
 	height: 100%;

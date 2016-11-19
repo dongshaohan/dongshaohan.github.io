@@ -6,7 +6,7 @@
     <meta name="format-detection" content="telephone=no, email=no" />
     <title>通讯录</title>
     <link rel="stylesheet" href="css/weui.css"/>
-    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/style.css?v=2022"/>
 </head>
 
 <body>
@@ -245,7 +245,7 @@
 		</div>
 	</script>
 	<script type="text/html" id="tpl_user">
-		<div class="mod-cont mod-personal">
+		<div class="mod-cont mod-personal" style="top: 0;">
 			<div class="mod-picture">
 				<div class="weui-media-box weui-media-box_appmsg">
                     <div class="weui-media-box__hd bc-ccc">
@@ -280,7 +280,7 @@
 	</script>
 	<script type="text/html" id="tpl_search">
 		<% if ( data ) { %>
-		<div class="mod-personal" style="margin-top: 0;">
+		<div class="mod-cont" style="top: 0;">
 			<div class="mod-cont-names">
 				<% _.each(data, function (val, key) { %>
 				<div class="mod-names">
@@ -304,7 +304,7 @@
 			</div>
 		</div>
 		<% } else { %>
-		<div class="mod-cont mod-noresult" style="margin-top: 0;">	
+		<div class="mod-cont mod-noresult" style="top: 0;">	
 			<p class="tips">没有您想要的搜索结果</p>
 		</div>
 		<% } %>
@@ -313,6 +313,6 @@
 	<script type="text/javascript" src="js/zepto.min.js"></script>
 	<script type="text/javascript" src="js/underscore-min.js"></script>
 	<script type="text/javascript" src="js/iscroll.js"></script>
-	<script type="text/javascript" src="js/app.js?v=2017"></script>
+	<script type="text/javascript" src="js/app.js?v=2022"></script>
 </body>
 </html>
