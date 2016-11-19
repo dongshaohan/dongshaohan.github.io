@@ -288,11 +288,11 @@ $(function () {
         init: function (url) {
             var self = this;
 
-            $(jQ.Tplbase).addClass('slideIn js_show').attr('id', url.substr(1))
+            $(jQ.Tplbase).addClass('slideIn init js_show').attr('id', url.substr(1))
             .appendTo(jQ.$container)
             .on('animationend webkitAnimationEnd', function () {
                 $(pageManager._currentPage).removeClass('js_show').addClass('js_normal');
-                $(this).removeClass('slideIn').off('animationend webkitAnimationEnd');
+                $(this).removeClass('slideIn init').off('animationend webkitAnimationEnd');
                 pageManager._currentPage = url;
             });
 
@@ -369,11 +369,11 @@ $(function () {
         init: function (url) {
             var self = this;
 
-            $(jQ.Tplbase).addClass('slideIn js_show').attr('id', url.substr(1))
+            $(jQ.Tplbase).addClass('slideIn init js_show').attr('id', url.substr(1))
             .appendTo(jQ.$container)
             .on('animationend webkitAnimationEnd', function () {
                 $(pageManager._currentPage).removeClass('js_show').addClass('js_normal');
-                $(this).removeClass('slideIn').off('animationend webkitAnimationEnd');
+                $(this).removeClass('slideIn init').off('animationend webkitAnimationEnd');
                 pageManager._currentPage = url;
             });
 
@@ -445,11 +445,11 @@ $(function () {
         init: function (url) {
             var self = this;
 
-            $(jQ.Tplbase).addClass('slideIn js_show').attr('id', url.substr(1))
+            $(jQ.Tplbase).addClass('slideIn init js_show').attr('id', url.substr(1))
             .appendTo(jQ.$container)
             .on('animationend webkitAnimationEnd', function () {
                 $(pageManager._currentPage).removeClass('js_show').addClass('js_normal');
-                $(this).removeClass('slideIn').off('animationend webkitAnimationEnd');
+                $(this).removeClass('slideIn init').off('animationend webkitAnimationEnd');
                 pageManager._currentPage = url;
             });
 
