@@ -86,53 +86,6 @@ var utils = (function () {
 	            };
 	            doc.body.appendChild(i);
 	        }
-	    },
-	    log: function () {
-	        var args = Array.prototype.slice.call(arguments);
-	        args.forEach((item, index) => {
-	            var text = args[index];
-	            if (typeof text == 'object') {
-	                text = JSON.stringify(text);
-	            }
-	            args[index] = text;
-	        });
-
-	        var id = 'ktv-util-log-ele';
-	        var ele = doc.getElementById(id);
-	        if(!ele){
-	            ele = doc.createElement('div');
-	            ele.setAttribute('id', id);
-	            ele.style.cssText = 'display:block;position:fixed;z-index:9999999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.8);color:#fff;font-size:12px;over-flow:auto;word-break:break-all;';
-	            doc.body.appendChild(ele);
-	        }
-	        var eleMsg = doc.createElement('div');
-	        eleMsg.innerHTML = args.join(' | ');
-	        ele.appendChild(eleMsg);
-
-	        // if (!ele.getAttribute('data-event')) {
-	        //     ele.setAttribute('data-event', 1);
-	        //     var clickTimes = 0;
-
-	        //     //长时间move后显示log
-
-	        //     doc.body.addEventListener('touchstart', e => {
-	        //         clickTimes = 0;
-	        //     }, false);
-
-	        //     doc.body.addEventListener('touchmove', e => {
-	        //         clickTimes++;
-	        //     }, false);
-
-	        //     doc.body.addEventListener('touchend', e => {
-	        //         if(clickTimes > 500){
-	        //             ele.style.display = 'block';
-	        //         }
-	        //     }, false);
-
-	        //     ele.addEventListener('click', e => {
-	        //         ele.style.display = 'none';
-	        //     }, false);
-	        // }
 	    }
 	}
 })();
@@ -142,7 +95,7 @@ $(function () {
     var token = '';
     var store = null;
     KTVWeb.getVersion(function (version) {
-    	utils.log(version);
+    	alert(JSON.stringify(version));
     });
     return;
     function showTips (msg) {
