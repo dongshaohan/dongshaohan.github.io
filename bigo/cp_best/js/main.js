@@ -102,7 +102,7 @@ var utils = (function () {
 	        if(!ele){
 	            ele = doc.createElement('div');
 	            ele.setAttribute('id', id);
-	            ele.style.cssText = 'display:none;position:fixed;z-index:9999999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.8);color:#fff;font-size:12px;over-flow:auto;word-break:break-all;';
+	            ele.style.cssText = 'display:block;position:fixed;z-index:9999999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,.8);color:#fff;font-size:12px;over-flow:auto;word-break:break-all;';
 	            doc.body.appendChild(ele);
 	        }
 	        var eleMsg = doc.createElement('div');
