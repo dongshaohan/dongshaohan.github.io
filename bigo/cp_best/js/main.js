@@ -97,6 +97,7 @@ $(function () {
     KTVWeb.getVersion(function (version) {
     	alert(JSON.stringify(version));
     });
+    alert(window.navigator.userAgent)
     return;
     function showTips (msg) {
         var $tips = $('<div class="app-tips">').text(msg);
