@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1,user-scalable=no">
+    <meta name="applicable-device" content="mobile">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="address=no">
+    <title>最佳CP人气榜</title>
+    <link rel="stylesheet" href="css/main.css?v=1">
+    <script>
+        (function(win) {
+            var doc = win.document, docEl = doc.documentElement, dpr = 1, tid;
+
+            docEl.setAttribute('data-dpr', dpr);
+
+            function refreshRem(){
+                var width = docEl.getBoundingClientRect().width;
+                if (width / dpr > 750) {
+                    width = 750 * dpr;
+                }
+                var rem = width / 10;
+                docEl.style.fontSize = rem + 'px';
+                win.rem = rem;
+                fixRem();
+            }
+
+            win.addEventListener('resize', function() {
+                clearTimeout(tid);
+                tid = setTimeout(refreshRem, 300);
+            }, false);
+
+            refreshRem();
+
+
+            if (doc.readyState === 'complete') {
+                fixRem();
+            } else {
+                doc.addEventListener('DOMContentLoaded', function(e) {
+                    fixRem();
+                }, false);
+            }
+
+            function fixRem(){
+                //修正华为安卓1rem计算不准确的bug
+                if(!doc.body) return;
+                var ele = doc.createElement('div'), w;
+                ele.style.cssText = 'position: fixed;left: -1rem;top: 0;width: 1rem;height: 1px';
+                doc.body.appendChild(ele);
+                w = ele.getBoundingClientRect().width;
+                if(w != win.rem){
+                    var rem = Math.round(win.rem/w*win.rem);
+                    docEl.style.fontSize = rem + 'px';
+                    win.rem = rem;
+                }
+                doc.body.removeChild(ele);
+            }
+
+        })(window);
+    </script>
+</head>
+<body>
+
+<div class="app">
+    <div class="app-hd">
+        <div class="app-info">
+            <div class="app-title"><img src="img/title-my.png" alt="我们的排名"></div>
+            <div class="info-box" id="j-info">
+                <div class="apply-success invite">
+                    <div class="pic-box">
+                        <span class="pic picOne unknow"><img src="img/default-avatar.png" alt=""></span>
+                        <span class="pic picTwo unknow"><img src="img/default-avatar.png" alt=""></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="app-bd">
+        <div class="app-title"><img src="img/title-rule.png" alt="活动规则"></div>
+        <div class="rule-list">
+            <p><span class="sp sp1"></span>1. 玩家两两进行自由配对，不限性别，配对成功后即可参与榜单竞争；</p>
+            <p><span class="sp sp2"></span>2. 绑定的 CP 双方获得<em>中秋节&nbsp;主题礼物</em>及召唤礼物可累积团圆值；</p>
+            <p><span class="sp sp3"></span>3. 获得章鱼球召唤礼物享受含团圆值双倍加成。</p>
+            <p class="eq-tips"> 1 召唤礼物 = 600 团圆值 </p>
+            <div class="rule-bigEllipse"></div>
+            <div class="rule-litileEllipse"></div>
+        </div>
+        <div class="app-title"><img src="img/title-rank.png" alt="排行榜"></div>
+        <div class="app-rank" id="j-list-box">
+        </div>
+    </div>
+</div>
+
+<script type="text/html" id="tpl-info">
+<% if(obj.cp_status.status == 0 || obj.cp_status.status == 2){ %>
+    <div class="apply-success invite">
+        <div class="pic-box">
+            <span class="pic picOne"><img src="<%= (obj.avatar || '').replace(/https?:/, '') %>" alt=""></span>
+            <span class="pic picTwo unknow"><img src="img/default-avatar.png" alt=""></span>
+        </div>
+        <div class="apply-box">
+            <div class="tips">需同时邀请对方即可组合成功</div>
+            <div class="inp-box"><input type="number" class="inp" id="j-hid" placeholder="输入对方ID邀请TA"></div>
+            <div class="inp-box"><button class="btn btn-apply">邀请</button></div>
+        </div>
+    </div>
+<% }else if(obj.cp_status.status == 1){ %>
+    <div class="apply-success invite">
+        <div class="pic-box">
+            <span class="pic picOne"><img src="<%= (obj.avatar || '').replace(/https?:/, '') %>" alt=""></span>
+            <span class="pic picTwo unknow"><img src="img/default-avatar.png" alt=""></span>
+        </div>
+        <div class="apply-box applying">
+            <div class="apply-box">
+                <div class="tips"><span class="nick"><%- obj.cp_status.lover_user_name %></span>(<%= obj.cp_status.lover_helloid %>) 确认中...</div>
+                <div class="sub-tips">(长时间没回应可重新邀请)</div>
+            </div>
+            <div class="apply-box"><button class="btn btn-cancel">取消邀请</button></div>
+        </div>
+    </div>
+<% }else if(obj.cp_status.status == 3){ %>
+    <div class="apply-success inviteSuccess">
+        <div class="pic-box">
+            <span class="pic picOne"><img src="<%= (obj.data.img || '').replace(/https?:/, '') %>" alt=""></span>
+            <span class="pic picTwo"><img src="<%= (obj.data.lover_img || '').replace(/https?\:/, '') %>" alt=""></span>
+        </div>
+        <div class="invite-success" style="margin-top: 0.2rem">
+            <div class="rally">团圆值：<%= obj.data.m_rankPoint %></div>
+        </div>
+        <div class="invite-success">
+            <div class="rally">排名：<%= obj.data.m_rankValue %></div>
+        </div>
+        <div class="invite-success">
+            <div class="beyond">已经超过<%= obj.data.surpass %>的对手</div>
+        </div>
+        <div class="beyond-tips">距离第一名还差<%= obj.data.next_step %>团圆值</div>
+    </div>
+<% } %>
+</script>
+
+<script type="text/html" id="tpl-list">
+    <ul class="rank-list" id="j-list">
+<% var size = 10;  %>
+<% for(var i=0, len = obj.length; i < len; i++){ %>
+    <li>
+        <div class="num num-<%= i + 1 %>"><%= i > 2 ? 'No.' :'' %><%= i + 1 %></div>
+        <div class="info-box info-box-<%= i + 1 %>">
+            <div class="pic-box">
+                <div class="pic"><img src="<%= obj[i].img.replace(/https?\:/, '') %>" alt=""></div>
+                <div class="pic"><img src="<%= obj[i].lover_img.replace(/https?\:/, '') %>" alt=""></div>
+            </div>
+            <div class="nick-box">
+                <div class="nick-man"><%- obj[i].user_name %></div>
+                <div class="nick-female"><%- obj[i].lover_user_name %></div>
+            </div>
+        </div>
+    </li>
+<% } %>
+<% if(len == 0){ %><li class="empty">快来霸占榜单吧！</li><% } %>
+    </ul>
+<% if(len >= size){ %><a href="javascript:;" class="btn-more <%= len > size ? 'opened':'' %>"></a><% } %>
+</script>
+
+<script type="text/html">
+    <div class="q-dialog">
+        <div class="mask"></div>
+        <div class="q-dialog-main">
+            <div class="q-title">{title}</div>
+            <div class="q-ft">
+                <a href="javascript:;" class="q-btn q-btn-ok">确认</a>
+                <a href="javascript:;" class="q-btn q-btn-cancel">取消</a>
+            </div>
+        </div>
+    </div>
+</script>
+
+<script src="/assets/js/zepto.min.js"></script>
+<script src="https://hstatic.weihuitel.com/helloktv/public/js/client/KTVWeb.min.js"></script>
+<script src="js/main.js?v=1"></script>
+<script>
+    function escapeHtml(str){
+        return (str+'').replace(/(<)|(>)/g, function(match, $1, $2){
+            if($1){
+                return '&lt;';
+            }else if($2){
+                return '&gt;';
+            }
+        });
+    }
+
+    function parseTpl(data, tplStr){
+        var tpl = tplStr;
+        var source = "var __t='';__t+='";
+        var index = 0;
+        tpl = tpl.replace(/\r|\n|\u2028|\u2029/g, '');
+        tpl.replace(/<%=([\s\S]+?)%>|<%-([\s\S]+?)%>|<%([\s\S]+?)%>/g, function(match, str, escape, jsCode, offset){
+            source += tpl.slice(index, offset).replace(/'/g, '\\\'');
+            index = offset + match.length;
+            if(str){
+                source += "';\n__t+=" + str + ";\n__t+='";
+            }else if(escape){
+                source += "';\n__t+=escapeHtml(" + escape + ");\n__t+='";
+            }else if(jsCode){
+                source += "';\n" + jsCode + "\n__t+='";
+            }
+        });
+        source += "';__t+='" + tpl.slice(index) + "';";
+        source += 'return __t;';
+        var func = new Function('obj', 'escapeHtml', source);
+        return func.call(null, data, escapeHtml);
+    }
+</script>
+</body>
+</html>
