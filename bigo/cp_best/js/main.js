@@ -109,30 +109,30 @@ var utils = (function () {
 	        eleMsg.innerHTML = args.join(' | ');
 	        ele.appendChild(eleMsg);
 
-	        if (!ele.getAttribute('data-event')) {
-	            ele.setAttribute('data-event', 1);
-	            var clickTimes = 0;
+	        // if (!ele.getAttribute('data-event')) {
+	        //     ele.setAttribute('data-event', 1);
+	        //     var clickTimes = 0;
 
-	            //长时间move后显示log
+	        //     //长时间move后显示log
 
-	            doc.body.addEventListener('touchstart', e => {
-	                clickTimes = 0;
-	            }, false);
+	        //     doc.body.addEventListener('touchstart', e => {
+	        //         clickTimes = 0;
+	        //     }, false);
 
-	            doc.body.addEventListener('touchmove', e => {
-	                clickTimes++;
-	            }, false);
+	        //     doc.body.addEventListener('touchmove', e => {
+	        //         clickTimes++;
+	        //     }, false);
 
-	            doc.body.addEventListener('touchend', e => {
-	                if(clickTimes > 500){
-	                    ele.style.display = 'block';
-	                }
-	            }, false);
+	        //     doc.body.addEventListener('touchend', e => {
+	        //         if(clickTimes > 500){
+	        //             ele.style.display = 'block';
+	        //         }
+	        //     }, false);
 
-	            ele.addEventListener('click', e => {
-	                ele.style.display = 'none';
-	            }, false);
-	        }
+	        //     ele.addEventListener('click', e => {
+	        //         ele.style.display = 'none';
+	        //     }, false);
+	        // }
 	    }
 	}
 })();
