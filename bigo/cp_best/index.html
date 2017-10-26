@@ -10,7 +10,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="format-detection" content="address=no">
     <title>最佳CP人气榜</title>
-    <link rel="stylesheet" href="css/main.css?v=1">
+    <link rel="stylesheet" href="css/main.css?v=14">
     <script>
         (function(win) {
             var doc = win.document, docEl = doc.documentElement, dpr = 1, tid;
@@ -34,8 +34,7 @@
             }, false);
 
             refreshRem();
-
-
+            
             if (doc.readyState === 'complete') {
                 fixRem();
             } else {
@@ -58,127 +57,254 @@
                 }
                 doc.body.removeChild(ele);
             }
-
         })(window);
     </script>
 </head>
-<body>
 
-<div class="app">
-    <div class="app-hd">
-        <div class="app-info">
-            <div class="app-title"><img src="img/title-my.png" alt="我们的排名"></div>
-            <div class="info-box" id="j-info">
-                <div class="apply-success invite">
-                    <div class="pic-box">
-                        <span class="pic picOne unknow"><img src="img/default-avatar.png" alt=""></span>
-                        <span class="pic picTwo unknow"><img src="img/default-avatar.png" alt=""></span>
+<body ontouchstart="">
+    <div class="wrap scroll-active" id="wrap">
+        <div class="above" id="above">
+            <!--根据是否过期显示内柔-->
+        </div>
+        <div class="below" id="below">
+            <div class="rank">
+                <div class="rank-now"></div>
+                <ul class="rank-ul" id="listWrap"></ul>
+            </div>
+            <img class="hold" src="img/hold-text.png" width="100%" alt="举办方">
+        </div>
+    </div>
+    <script type="text/html" id="headTpl">
+        <% if ( obj.all ) { %>
+        <div class="unit all"></div>
+        <% } else { %>
+        <div class="unit"><span id="current"></span></div>
+        <% } %>
+        <% if ( obj.all ) { %>
+        <div class="timepass"><p>本期活动已结束</p><p>感谢您的参与</p></div>
+        <% } else { %>
+        <% if ( obj.status == 0 ) { %>
+        <div class="timepass"><p>本期活动已结束</p><p>下期活动即将开始</p></div>
+        <% } else { %>
+        <div class="countdown">
+            <span class="hour" id="hour">00</span>
+            <span class="minute" id="minute">00</span>
+            <span class="second" id="second">00</span>
+        </div>
+        <% } %>
+        <% } %>
+        <% if ( utils.isHello() ) { %>
+        <div class="chance">今日还有<span class="number"><span id="chance">0</span>次</span>投票机会</div>
+        <div class="ruleAshare">
+            <div class="rule"></div>`   
+            <div class="share"></div>
+        </div>
+        <% } %>
+    </script>
+    <script type="text/html" id="listTpl">
+        <li class="rank-begin"></li>
+        <% var size = 4; %>
+        <% for ( var i = 0, len = obj.list.length; i < len; i++ ) { %>
+        <li class="rank-li rank-li-<%= i+1 %>" data-id="<%= obj.list[i].cphelloid %>">
+            <div class="rank-num"><span class="rank-number">No.<%= i+1 %></span><span class="clear-cell"></span></div>
+            <div class="rank-intro">
+                <div class="rank-avatar">
+                    <div class="rank-avatar-left"><img src="<%= obj.list[i].avatar0.replace(/https?\:/, '') %>" width="100%" alt="" /></div>
+                    <div class="rank-avatar-right"><img src="<%= obj.list[i].avatar1.replace(/https?\:/, '') %>" width="100%" alt="" /></div>
+                </div>
+                <div class="rank-name">
+                    <span class="rank-nameL"><%- obj.list[i].name0 %></span>
+                    <span class="rank-nameR"><%- obj.list[i].name1 %></span>
+                </div>
+                <!-- 1-3才有 -->
+                <% if ( i < 3 ) { %>
+                <div class="rank-intro-starL"></div>
+                <div class="rank-intro-starR"></div>
+                <% } %>
+                <!-- end -->
+            </div>
+            <% if ( obj.all ) { %>
+            <div class="rank-history-status">
+                <p><span class="rank-history-love"></span></p>
+                <p><span class="rank-history-voteNum"><%= obj.list[i].vote %></span></p>
+            </div>
+            <% } else { %>
+            <div class="rank-status">
+                <% if ( utils.isHello() ) { %>
+                <% if ( obj.status == 0 ) { %>
+                <div class="rank-vote voted"><span>已结束</span></div>
+                <% } else { %>
+                <% if ( obj.list[i].votestatus == 0 ) { %>
+                <div class="rank-vote"><span>投票</span></div>
+                <% } else { %>
+                <div class="rank-vote voted"><span>已投票</span></div>
+                <% } %>
+                <% } %>
+                <% } else { %>
+                <div class="rank-vote"><span>投票</span></div>
+                <% } %>
+                <div class="rank-count">
+                    <span class="rank-love"></span><span class="rank-voteNum" data-vote="<%= obj.list[i].vote %>"><%= obj.list[i].vote %></span>
+                </div>
+            </div>
+            <% } %>
+            <div class="line"></div>
+        </li>
+        <% } %>
+        <% if ( len >= size ) { %><li class="rank-btnBg"><span class="rank-btn list-btn <%= len > size ? 'opened':'' %>"></span></li><% } %>
+        <li class="rank-end"></li>
+    </script>
+    <script type="text/html" id="historyTpl">
+        <li class="rank-begin"></li>
+        <!--历史榜单才有-->
+        <li class="rank-history-wrap">
+            <div class="rank-history-select">
+                <span class="rank-select-text"><span class="rank-select-cell">第<%= utils.numToChinese(obj.type+'') %>期</span></span>
+                <span class="rank-select-btn"></span>
+            </div>
+            <ul class="rank-select-ul none" id="rank-select-ul">
+                <% for ( var j = 0; j < obj.all; j++ ) { %>
+                <li class="rank-select-li">第<%=utils.numToChinese(j+1+'')%>期</li>
+                <% } %>
+            </ul>
+        </li>
+        <!--end-->
+        <% var size = 3; %>
+        <% for ( var i = 0, len = obj.data.length; i < len; i++ ) { %>
+        <li class="rank-li rank-li-<%= i+1 %>">
+            <div class="rank-num"><span class="rank-number">No.<%= i+1 %></span><span class="clear-cell"></span></div>
+            <div class="rank-intro">
+                <div class="rank-avatar">
+                    <div class="rank-avatar-left"><img src="<%= obj.data[i].avatar0.replace(/https?\:/, '') %>" width="100%" /></div>
+                    <div class="rank-avatar-right"><img src="<%= obj.data[i].avatar1.replace(/https?\:/, '') %>" width="100%" /></div>
+                </div>
+                <div class="rank-name">
+                    <span class="rank-nameL"><%- obj.data[i].name0 %></span>
+                    <span class="rank-nameR"><%- obj.data[i].name1 %></span>
+                </div>
+                <% if ( i < 3 ) { %>
+                <!-- 1-3才有 -->
+                <div class="rank-intro-starL"></div>
+                <div class="rank-intro-starR"></div>
+                <!-- end -->
+                <% } %>
+            </div>
+            <div class="rank-history-status">
+                <p><span class="rank-history-love"></span></p>
+                <p><span class="rank-history-voteNum"><%= obj.data[i].vote %></span></p>
+            </div>
+            <div class="line"></div>
+        </li>
+        <% } %>
+        <% if ( len >= size ) { %><li class="rank-btnBg"><span class="rank-btn history-btn <%= len > size ? 'opened':'' %>"></span></li><% } %>
+        <li class="rank-end"></li>
+    </script>
+    <script type="text/html" id="dialogTpl">
+        <div class="q-dialog">
+            <div class="q-dialog-main show">
+                <div class="q-dialog-bg">
+                    <div class="q-title"><%=obj.title%></div>
+                    <div class="q-ft">
+                        <% if ( obj.type == 1 ) { %>
+                        <a href="javascript:;" class="q-btn q-btn-cancel">返回</a>
+                        <a href="http://hello.yy.com" class="q-btn-download">立即下载</a>
+                        <% } else if ( obj.type == 2 ) { %>
+                        <a href="javascript:;" class="q-btn q-btn-ok">我知道了</a>
+                        <% } else if ( obj.type == 3 ) { %>
+                        <a href="http://hello.yy.com" class="q-btn-ok">立即下载</a>
+                        <% } %>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="app-bd">
-        <div class="app-title"><img src="img/title-rule.png" alt="活动规则"></div>
-        <div class="rule-list">
-            <p><span class="sp sp1"></span>1. 玩家两两进行自由配对，不限性别，配对成功后即可参与榜单竞争；</p>
-            <p><span class="sp sp2"></span>2. 绑定的 CP 双方获得<em>中秋节&nbsp;主题礼物</em>及召唤礼物可累积团圆值；</p>
-            <p><span class="sp sp3"></span>3. 获得章鱼球召唤礼物享受含团圆值双倍加成。</p>
-            <p class="eq-tips"> 1 召唤礼物 = 600 团圆值 </p>
-            <div class="rule-bigEllipse"></div>
-            <div class="rule-litileEllipse"></div>
-        </div>
-        <div class="app-title"><img src="img/title-rank.png" alt="排行榜"></div>
-        <div class="app-rank" id="j-list-box">
-        </div>
-    </div>
-</div>
-
-<script type="text/html" id="tpl-info">
-<% if(obj.cp_status.status == 0 || obj.cp_status.status == 2){ %>
-    <div class="apply-success invite">
-        <div class="pic-box">
-            <span class="pic picOne"><img src="<%= (obj.avatar || '').replace(/https?:/, '') %>" alt=""></span>
-            <span class="pic picTwo unknow"><img src="img/default-avatar.png" alt=""></span>
-        </div>
-        <div class="apply-box">
-            <div class="tips">需同时邀请对方即可组合成功</div>
-            <div class="inp-box"><input type="number" class="inp" id="j-hid" placeholder="输入对方ID邀请TA"></div>
-            <div class="inp-box"><button class="btn btn-apply">邀请</button></div>
-        </div>
-    </div>
-<% }else if(obj.cp_status.status == 1){ %>
-    <div class="apply-success invite">
-        <div class="pic-box">
-            <span class="pic picOne"><img src="<%= (obj.avatar || '').replace(/https?:/, '') %>" alt=""></span>
-            <span class="pic picTwo unknow"><img src="img/default-avatar.png" alt=""></span>
-        </div>
-        <div class="apply-box applying">
-            <div class="apply-box">
-                <div class="tips"><span class="nick"><%- obj.cp_status.lover_user_name %></span>(<%= obj.cp_status.lover_helloid %>) 确认中...</div>
-                <div class="sub-tips">(长时间没回应可重新邀请)</div>
-            </div>
-            <div class="apply-box"><button class="btn btn-cancel">取消邀请</button></div>
-        </div>
-    </div>
-<% }else if(obj.cp_status.status == 3){ %>
-    <div class="apply-success inviteSuccess">
-        <div class="pic-box">
-            <span class="pic picOne"><img src="<%= (obj.data.img || '').replace(/https?:/, '') %>" alt=""></span>
-            <span class="pic picTwo"><img src="<%= (obj.data.lover_img || '').replace(/https?\:/, '') %>" alt=""></span>
-        </div>
-        <div class="invite-success" style="margin-top: 0.2rem">
-            <div class="rally">团圆值：<%= obj.data.m_rankPoint %></div>
-        </div>
-        <div class="invite-success">
-            <div class="rally">排名：<%= obj.data.m_rankValue %></div>
-        </div>
-        <div class="invite-success">
-            <div class="beyond">已经超过<%= obj.data.surpass %>的对手</div>
-        </div>
-        <div class="beyond-tips">距离第一名还差<%= obj.data.next_step %>团圆值</div>
-    </div>
-<% } %>
-</script>
-
-<script type="text/html" id="tpl-list">
-    <ul class="rank-list" id="j-list">
-<% var size = 10;  %>
-<% for(var i=0, len = obj.length; i < len; i++){ %>
-    <li>
-        <div class="num num-<%= i + 1 %>"><%= i > 2 ? 'No.' :'' %><%= i + 1 %></div>
-        <div class="info-box info-box-<%= i + 1 %>">
-            <div class="pic-box">
-                <div class="pic"><img src="<%= obj[i].img.replace(/https?\:/, '') %>" alt=""></div>
-                <div class="pic"><img src="<%= obj[i].lover_img.replace(/https?\:/, '') %>" alt=""></div>
-            </div>
-            <div class="nick-box">
-                <div class="nick-man"><%- obj[i].user_name %></div>
-                <div class="nick-female"><%- obj[i].lover_user_name %></div>
+    </script>
+    <script type="text/html" id="shareTpl">
+        <div class="q-dialog">
+            <div class="q-dialog-main show">
+                <div class="q-dialog-bg">
+                    <span class="q-dialog-close"></span>
+                    <ul class="q-dialog-share">
+                        <li class="q-dialog-li">
+                            <p class="q-dialog-img"><img src="img/share-friends.png" width="100%"></p>
+                            <p class="q-dialog-shareWord">微信朋友圈</p>
+                        </li>
+                        <li class="q-dialog-li">
+                            <p class="q-dialog-img"><img src="img/share-wx.png" width="100%"></p>
+                            <p class="q-dialog-shareWord">微信好友</p>
+                        </li>
+                        <li class="q-dialog-li">
+                            <p class="q-dialog-img"><img src="img/share-wb.png" width="100%"></p>
+                            <p class="q-dialog-shareWord">微博</p>
+                        </li>
+                        <li class="q-dialog-li">
+                            <p class="q-dialog-img"><img src="img/share-qq.png" width="100%"></p>
+                            <p class="q-dialog-shareWord">QQ好友</p>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </li>
-<% } %>
-<% if(len == 0){ %><li class="empty">快来霸占榜单吧！</li><% } %>
-    </ul>
-<% if(len >= size){ %><a href="javascript:;" class="btn-more <%= len > size ? 'opened':'' %>"></a><% } %>
-</script>
-
-<script type="text/html">
-    <div class="q-dialog">
-        <div class="mask"></div>
-        <div class="q-dialog-main">
-            <div class="q-title">{title}</div>
-            <div class="q-ft">
-                <a href="javascript:;" class="q-btn q-btn-ok">确认</a>
-                <a href="javascript:;" class="q-btn q-btn-cancel">取消</a>
+    </script>
+    <script type="text/html" id="ruleTpl">
+        <div class="q-dialog">
+            <div class="q-dialog-main rule">
+                <div class="q-dialog-bg">
+                    <span class="q-dialog-close"></span>
+                    <div class="q-rule-wrap">
+                        <ul class="">
+                            <li class="q-rule-li">
+                                <span class="q-rule-circle">1</span>活动说明：
+                            </li>
+                            <li class="q-rule-li">通过投票的方式为线上48小时CP活动成功牵手的CP加油送祝福，帮他们赢取属于他们的48小时恋爱基金。</li>
+                            <li class="q-rule-li">
+                                <span class="q-rule-circle">2</span>投票时间：<span class="q-rule-bg1">11月1日-11月27日</span>按期开启投票通道，每期投票持续<span class="q-rule-bg1">48小时，共4期</span>，
+                            </li>
+                            <li class="q-rule-li">具体时间以每期活动上线时间为准。</li>
+                            <li class="q-rule-li">
+                                <span class="q-rule-circle">3</span>投票规则：
+                            </li>
+                            <li class="q-rule-li">1）每个用户设备及账号<span class="q-rule-bg1">每天拥有3次</span>投票机会，每次只能投给一组cp，每天最多可以投给3组cp。</li>
+                            <li class="q-rule-li">2）每组CP排列顺序根据实时最高票数顺序排列，投票结果以每期活动结束时票数为准。</li>
+                            <li class="q-rule-li">3）<span class="q-rule-bg1">投票一旦提交后不可更改</span>。</li>
+                            <li class="q-rule-li">4）每月最佳cp排名：截止到11月27日投票活动结束，将把所有参赛CP按<span class="q-rule-bg1">票数高低进行排名</span>，票数排名前三的CP将获得当月最佳CP恋爱基金奖励（无需再次投票）。</li>
+                            <li class="q-rule-li">5）历史人气榜最多仅展示前10名票数    。</li>
+                            <li class="q-rule-li">
+                                <span class="q-rule-circle">4</span>投票入口：
+                            </li>
+                            <li class="q-rule-li">1）超级课程表用户：在超级课程表APP中，工具箱页面顶部，点击【更多】可看到<span class="q-rule-bg1">语音聊天室入口</span>，点击页面右下方【我】，<span class="q-rule-bg1">找到【活动中心】</span>，点击进入即可进行投票。</li>
+                            <li class="q-rule-li">2）Hello用户：在Hello语音APP中，左上角个人页的【活动中心】找到投票页面即可进行投票（低于3.8.2版本的用户需更新至Hello最新版本方可进行投票）。</li>
+                            <li class="q-rule-li">
+                                <span class="q-rule-circle">5</span>活动奖励：
+                            </li>
+                            <li class="q-rule-li tc"><span class="pl q-rule-bg2">每期最佳CP奖励:</span></li>
+                            <li class="q-rule-li tc"><span class="w300 tl">第一名：520元恋爱基金</span></li>
+                            <li class="q-rule-li tc"><span class="w300 tl">第二名：300元恋爱基金</span></li>
+                            <li class="q-rule-li tc"><span class="w300 tl">第三名：131.4元恋爱基金</span></li>
+                            <li class="q-rule-li tc"><span class="pl q-rule-bg3">当月最佳CP奖励:</span></li>
+                            <li class="q-rule-li tc"><span class="w300 tl">第一名：1314元恋爱基金</span></li>
+                            <li class="q-rule-li tc"><span class="w300 tl">第二名：999元恋爱基金</span></li>
+                            <li class="q-rule-li tc"><span class="w300 tl">第三名：520元恋爱基金</span></li>
+                            <li class="q-rule-li">
+                                <span class="q-rule-circle">6</span>奖励领取时间：每期投票结束后的15天内，会有相关工作人员联系您进行奖励发放。
+                            </li>
+                            <li class="q-rule-li">
+                                <span class="q-rule-circle">7</span>本次活动的所有数据统计均以hello语音活动组织方的统计为准，如被发现有违规行为（如恶意刷票等违反活动公平性的问题），Hello语音组织方将取您本次活动资格，并取消您的奖励资格。
+                            </li>
+                            <li class="q-rule-li">
+                                <span class="q-rule-circle">8</span>如有任何疑问，可加入本次活动<span class="q-rule-bg1">QQ群341333216</span>。
+                            </li>
+                            <li class="q-rule-footer">本次活动最终解释权归Hello语音所有</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="q-dialog-rules"></div>
             </div>
         </div>
-    </div>
-</script>
+    </script>
 
-<script src="/assets/js/zepto.min.js"></script>
-<script src="https://hstatic.weihuitel.com/helloktv/public/js/client/KTVWeb.min.js"></script>
-<script src="js/main.js?v=1"></script>
+    <script src="/assets/js/zepto.min.js"></script>
+    <script src="https://hstatic.weihuitel.com/helloktv/public/js/client/KTVWeb.min.js"></script>
+    <script src="js/main.js?v=12"></script>
+    <script src="/assets/public/js/baidu/act.js"></script>
 </body>
 </html>

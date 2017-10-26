@@ -71,9 +71,12 @@ img{vertical-align:top;}
 /* compatible */
 // 禁止点击元素产生背景或边框
 a, button, input, textarea { -webkit-tap-highlight-color: rgba(0,0,0,0) }
+a { text-decoration: none; }
 // 改变webkit浏览器的默认外观
 input, select { -webkit-appearance:none; appearance: none; }
 html, body {
+    position: relative;
+    width: 100%;
     height: 100%;
     // 禁止ios和android用户选中文字
     -webkit-user-select:none; 
@@ -88,10 +91,630 @@ body {
     .mix-fontsize(12px);
     font-family: "PingFang SC", "Helvetica Neue", "Microsoft YaHei", Helvetica, STHeiTi, SimHei, Arial, sans-serif;
 }
+/*!
+ * 兼容性问题
+ * 垂直居中：iPhone4不支持flex，line-height在Android浏览字体有误差会偏上显示 所以用table 
+ * border-width：安卓下border-width 1.x = 1px 显示不准确 故用px 不用rem表示
+ */
 /* end */
 
 /* single */
-.app-tips{
+.none { display: none }
+.wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #fbff96;
+}
+.scroll-active {
+    -webkit-overflow-scrolling: touch;
+}
+.above {
+    position: relative;
+    z-index: 1;
+    height: 860*@base;
+    overflow: hidden;
+    background: url(../img/above.jpg) no-repeat 0 0;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+    
+    .unit {
+        position: absolute;
+        z-index: 2;
+        top: 17*@base;
+        right: 0;
+        width: 162*@base;
+        height: 77*@base;
+        background: url(../img/unit.png) no-repeat 0 0;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+
+        &.all {
+            background-image: url(../img/all.png);
+        }
+        
+        .no1 {
+            position: absolute;
+            z-index: 2;
+            display: block;
+            top: 15*@base;
+            right: 62*@base;
+            width: 25*@base;
+            height: 45*@base;
+            background: url(../img/1.png) no-repeat 0 0;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+        }
+        .no2 {
+            position: absolute;
+            z-index: 2;
+            display: block;
+            top: 15*@base;
+            right: 57*@base;
+            width: 31*@base;
+            height: 45*@base;
+            background: url(../img/2.png) no-repeat 0 0;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+        }
+        .no3 {
+            position: absolute;
+            z-index: 2;
+            display: block;
+            top: 15*@base;
+            right: 56*@base;
+            width: 29*@base;
+            height: 45*@base;
+            background: url(../img/3.png) no-repeat 0 0;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+        }
+        .no4 {
+            position: absolute;
+            z-index: 2;
+            display: block;
+            top: 15*@base;
+            right: 55*@base;
+            width: 35*@base;
+            height: 45*@base;
+            background: url(../img/4.png) no-repeat 0 0;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+        }
+    }
+    .countdown {
+        position: relative;
+        z-index: 1;
+        width: 628*@base;
+        height: 173*@base;
+        background: url(../img/countdown.png) no-repeat 0 0;
+        margin: 459*@base auto 0;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+        color: #769ef9;
+        -webkit-text-stroke: 2*@base #1f3b83;
+        text-stroke: 2*@base #1f3b83;
+        -webkit-text-fill-color: #769ef9;
+        text-fill-color: #769ef9;
+        font-weight: bold;
+        .mix-fontsize(18px);
+
+        .hour {
+            text-align: center;
+            line-height: 66*@base;
+            width: 66*@base;
+            height: 66*@base;
+            border-radius: 5px;
+            position: absolute;
+            z-index: 2;
+            top: 80*@base;
+            left: 206*@base;
+        }
+        .minute {
+            width: 66*@base;
+            height: 66*@base;
+            text-align: center;
+            line-height: 66*@base;
+            border-radius: 5px;
+            position: absolute;
+            z-index: 2;
+            top: 80*@base;
+            left: 320*@base;
+        }
+        .second {
+            width: 66*@base;
+            height: 66*@base;
+            text-align: center;
+            line-height: 66*@base;
+            border-radius: 5px;
+            position: absolute;
+            z-index: 2;
+            top: 80*@base;
+            left: 434*@base;
+        }
+    }
+    .timepass {
+        width: 628*@base;
+        height: 143*@base;
+        margin: 459*@base auto 0;
+        padding-top: 30*@base;
+        color: #fff;
+        text-align: center;
+        font-weight: bold;
+        .mix-fontsize(18px);
+    }
+    .chance {
+        width: 100%;
+        font-weight: bold;
+        text-align: center;
+        .mix-fontsize(15px);
+        color: #fff;
+        padding: 15*@base 0 25*@base;
+    
+        .number {
+            font-weight: bold;
+            color: #ffe538;
+        }
+    }
+    .ruleAshare {
+        width: 100%;
+        overflow: hidden;
+
+        .rule {
+            float: left;
+            width: 349*@base;
+            height: 105*@base;
+            background: url(../img/rule.png) no-repeat 0 0;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+        }
+        .share {
+            float: right;
+            width: 349*@base;
+            height: 105*@base;
+            background: url(../img/share.png) no-repeat 0 0;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+        }
+    }
+}
+.below {
+    position: relative;
+    z-index: 1;
+    min-height: 5rem;
+    padding: 0 0 30*@base 0;
+    background: #fbff96 url(../img/below.jpg) no-repeat 0 0;
+    -webkit-background-size: 100% 100%;
+    background-size: 100% 100%;
+    // background: -webkit-linear-gradient(180deg, #54b8ff, #fbff96);
+    // background: linear-gradient(180deg, #54b8ff, #fbff96);
+    
+    .hold {
+        width: 100%;
+        margin-top: 33*@base;
+    }
+}
+.rank {
+    width: 688*@base;
+    margin: 0 auto;
+    overflow: hidden;
+    text-align: center;
+
+    .rank-now {
+        width: 348*@base;
+        height: 78*@base;
+        margin: 5*@base auto 0;
+        background: url(../img/rank-now.png) no-repeat 0 0;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+
+        &.all {
+            background-image: url(../img/month.png);
+        }
+    }
+    .rank-history {
+        width: 410*@base;
+        height: 78*@base;
+        margin: 27*@base auto 0;
+        background: url(../img/rank-history.png) no-repeat 0 0;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+    }
+    .rank-ul {
+        margin-top: -15*@base;
+        width: 688*@base;
+        overflow: hidden;
+    }
+    .rank-begin {
+        width: 688*@base;
+        height: 20*@base;
+        background: url(../img/rank-bg-begin.png) no-repeat 0 0;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+    }
+    .rank-li {
+        position: relative;
+        z-index: 1;
+        width: 688*@base;
+        height: 240*@base;
+        background: url(../img/rank-bg-repeat.jpg) repeat-y 0 0;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+
+        .rank-num {
+            display: table;
+            position: absolute;
+            top: 75*@base;
+            left: 16*@base;
+            z-index: 2;
+            overflow: hidden;
+            width: 237*@base;
+            height: 71*@base;
+            background: url(../img/rank-other.png) no-repeat 0 0;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+            
+            .rank-number {
+                .mix-fontsize(14px);
+                display: table-cell;
+                vertical-align: middle;
+                text-align: center;
+                color: #4c4c4c;
+                font-weight: bold;
+            }
+            .clear-cell {
+                display: table-cell;
+                width: 130*@base;
+            }
+        }
+        .rank-intro {
+            position: absolute;
+            top: 24*@base;
+            left: 112*@base;
+            bottom: 21*@base;
+            z-index: 3;
+            width: 295*@base;
+        }
+        .rank-avatar {
+            position: relative;
+            width: 295*@base;
+            height: 151*@base;
+
+            img {
+                border-radius: 50%;
+            }
+        }
+        .rank-avatar-left {
+            border-radius: 50%;
+            border: 2px solid #ff799c;
+            background-color: #fff;
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            z-index: 4;
+            width: 143*@base;
+            height: 143*@base;
+            padding: 2px;
+        }
+        .rank-avatar-right {
+            border-radius: 50%;
+            border: 2px solid #7090e2;
+            background-color: #fff;
+            position: absolute;
+            bottom: -1px;
+            right: 0;
+            z-index: 5;
+            width: 143*@base;
+            height: 143*@base;
+            padding: 2px;
+        }
+        .rank-name {
+            overflow: hidden;
+            width: 100%;
+            font-weight: bold;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            z-index: 3;
+        }
+        .rank-nameL {
+            float: left;
+            width: 50%;
+            text-align: center;
+            color: #ff799c;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .rank-nameR {
+            float: right;
+            width: 50%;
+            text-align: center;
+            color: #7090e2;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .rank-intro-starL {
+            position: absolute;
+            top: 15*@base;
+            left: -17*@base;
+            z-index: 3;
+            width: 30*@base;
+            height: 30*@base;
+            background: url(../img/star-left.png) no-repeat 0 0;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+        }
+        .rank-intro-starR {
+            position: absolute;
+            bottom: 40*@base;
+            right: -8*@base;
+            z-index: 3;
+            width: 25*@base;
+            height: 22*@base;
+            background: url(../img/star-right.png) no-repeat 0 0;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+        }
+        .rank-status {
+            position: absolute;
+            text-align: center;
+            top: 59*@base;
+            right: 37*@base;
+            bottom: 21*@base;
+            z-index: 2;
+            width: 196*@base;
+        }
+        .rank-history-status {
+            position: absolute;
+            text-align: center;
+            top: 74*@base;
+            right: 45*@base;
+            width: 179*@base;
+            z-index: 2;
+            
+        }
+        .rank-vote {
+            display: table;
+            width: 196*@base;
+            height: 83*@base;
+            text-align: center;
+            .mix-fontsize(18px);
+            color: #6e440d;
+            font-weight: bold;
+            background: url(../img/vote.png) no-repeat 0 0;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+
+            &.voted {
+                color: #e9e9e9;
+                background-image: url(../img/voted.png);
+            }
+            span {
+                display: table-cell;
+                vertical-align: middle;
+            }
+        }
+        .rank-count {
+            position: absolute;
+            z-index: 2;
+            height: 40*@base;
+            overflow: hidden;
+            width: 100%;
+            bottom: 0;
+            left: 0;
+            text-align: center;
+        }
+        .rank-love {
+            display: inline-block;
+            width: 40*@base;
+            height: 36*@base;
+            background: url(../img/heart.png) no-repeat 0 0;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+        }
+        .rank-history-love {
+            display: inline-block;
+            width: 54*@base;
+            height: 49*@base;
+            background: url(../img/heart.png) no-repeat 0 0;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+        }
+        .rank-voteNum {
+            display: inline-block;
+            margin-left: 10*@base;
+            color: #6e440d;
+            font-weight: bold;
+            height: 36*@base;
+            line-height: 36*@base;
+            vertical-align: top;
+        }
+        .rank-history-voteNum {
+            color: #6e440d;
+            font-weight: bold;
+            .mix-fontsize(15px);
+        }
+        .line {
+            position: absolute;
+            bottom: 0;
+            left: 10*@base;
+            right: 14*@base;
+            border-bottom: 4*@base dashed #8F9DC1;
+        }
+    }
+    .rank-li-1 {
+        height: 244*@base; 
+
+        .rank-num {
+            top: 77*@base;
+            background-image: url(../img/rank-first.png);
+        }
+        .rank-intro {
+            top: 11*@base;
+        }
+        .rank-avatar {
+            height: 169*@base;
+            background: url(../img/avatar-high.png) no-repeat 0 0;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+        }
+        .rank-status {
+            top: 64*@base;
+        }
+    }
+    .rank-li-2 {
+        height: 260*@base; 
+    
+        .rank-num {
+            top: 93*@base;
+            background-image: url(../img/rank-second.png);
+        }
+        .rank-intro {
+            top: 27*@base;
+        }
+        .rank-avatar {
+            height: 169*@base;
+            background: url(../img/avatar-high.png) no-repeat 0 0;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+        }
+        .rank-status {
+            top: 80*@base;
+        }
+    }
+    .rank-li-3 {
+        height: 260*@base; 
+
+        .rank-num {
+            top: 93*@base;
+            background-image: url(../img/rank-third.png);
+        }
+        .rank-intro {
+            top: 27*@base;
+        }
+        .rank-avatar {
+            height: 169*@base;
+            background: url(../img/avatar-high.png) no-repeat 0 0;
+            -webkit-background-size: 100% 100%;
+            background-size: 100% 100%;
+        }
+        .rank-status {
+            top: 80*@base;
+        }
+    }
+    .rank-btnBg {
+        width: 688*@base;
+        padding: 35*@base 0 9*@base;
+        overflow: hidden;
+        background: url(../img/rank-bg-repeat.jpg) repeat-y 0 0;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+        text-align: center;
+    }
+    .rank-btn {
+        display: inline-block;
+        width: 373*@base;
+        height: 67*@base;
+        color: #1f3b83;
+        line-height: 67*@base;
+        font-weight: bold;
+        background: url(../img/rank-btn.png) no-repeat 0 0;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+
+        &:before {
+            content: "点击查看更多";
+        }
+        &.opened {
+            &:before {
+                content: "点击收起";
+            }
+        }
+    }
+    .rank-end {
+        width: 688*@base;
+        height: 20*@base;
+        background: url(../img/rank-bg-end.png) no-repeat 0 0;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+    }
+    .rank-history-wrap {
+        position: relative;
+        z-index: 6;
+        color: #1f3b83;
+        font-weight: bold;
+        text-align: center;
+        padding: 33*@base 0 35*@base;
+        width: 688*@base;
+        background: url(../img/rank-bg-repeat.jpg) repeat-y 0 0;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+    }
+    .rank-history-select {
+        position: relative;
+        z-index: 6;
+        margin: 0 auto;
+        width: 394*@base;
+        // width: 402*@base;
+        height: 69*@base;
+        background: url(../img/select.png) no-repeat 0 0;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+    }
+    .rank-select-text {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 7;
+        width: 314*@base;
+        height: 69*@base;
+        text-align: center;
+        display: table;
+
+        .rank-select-cell {
+            display: table-cell;
+            vertical-align: middle;
+        }
+    }
+    .rank-select-btn {
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 7;
+        width: 106*@base;
+        height: 69*@base;
+    }
+    .rank-select-ul {
+        position: absolute;
+        top: 86*@base;
+        left: 146*@base;
+        z-index: 5;
+        padding: 17*@base 0 0;
+        width: 308*@base;
+        background-color: #fff;
+        border: 3*@base solid #1f3b83;
+        border-top: none;
+        border-bottom-left-radius: 20*@base;
+        border-bottom-right-radius: 20*@base;
+    }
+    .rank-select-li {
+        width: 244*@base;
+        height: 40*@base;
+        line-height: 40*@base;
+        margin: 0 auto;
+
+        &:active {
+            background: #FFB487;
+        }
+    }
+}
+.app-tips {
     position: fixed;
     z-index: 1000;
     padding: 0.5em 2em;
@@ -102,5 +725,193 @@ body {
     border-radius: 4px;
     -webkit-transform: translateX(-50%);
     transform: translateX(-50%);
+}
+.q-dialog {
+    position: fixed;
+    z-index: 99999;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.4);
+
+    .q-dialog-main {
+        position: absolute; 
+        left: 48*@base;
+        right: 48*@base;
+        border-radius: 10px;
+        padding: 22*@base;
+        background-color: #A9EBFF;
+
+        .q-dialog-bg {
+            overflow: hidden;
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+            border-radius: 10px;
+        }
+        &.show {
+            top: 50%;
+            height: 254*@base;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+        &.rule {
+            top: 15%;
+            bottom: 15%;
+
+            .q-dialog-bg {
+                overflow: auto;
+            }
+        }
+    }
+    .q-title {
+        margin: 58*@base auto 0; 
+        width: 480*@base;
+        color: #000;
+        text-align: center;
+        font-weight: 600;
+    }
+    .q-ft {
+        position: absolute;
+        top: 162*@base;
+        width: 480*@base;
+        height: 63*@base;
+        left: 65*@base;
+        overflow: hidden;
+        text-align: center;
+    }
+    .q-btn-cancel {
+        float: left;
+        width: 186*@base;
+        height: 63*@base;
+        line-height: 63*@base;
+        color: #fff;
+        background: url(../img/return.png) no-repeat 0 0;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+    }
+    .q-btn-download {
+        float: right;
+        width: 186*@base;
+        height: 63*@base;
+        line-height: 63*@base;
+        color: #fff;
+        background: url(../img/download.png) no-repeat 0 0;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+    }
+    .q-btn-ok {
+        display: inline-block;
+        width: 481*@base;
+        height: 63*@base;
+        line-height: 63*@base;
+        color: #fff;
+        background: url(../img/iknow.png) no-repeat 0 0;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+    }
+    .q-dialog-share {
+        width: 100%;
+        display: table;
+        margin-top: 55*@base;
+    }
+    .q-dialog-li {
+        display: table-cell;
+        width: 25%;
+        text-align: center;
+    }
+    .q-dialog-img {
+        display: inline-block;
+        width: 101*@base;
+        height: 101*@base;
+    }
+    .q-dialog-shareWord {
+        color: #000;
+        margin-top: 15*@base;
+    }
+    .q-dialog-close {
+        position: absolute;
+        right: 13*@base;
+        top: 10*@base;
+        width: 33*@base;
+        height: 33*@base;
+        background: url(../img/close.png) no-repeat 0 0;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+    }
+    .q-dialog-rules {
+        position: absolute;
+        left: -19*@base;
+        top: 20*@base;
+        width: 244*@base;
+        height: 100*@base;
+        background: url(../img/rules.png) no-repeat 0 0;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+    }
+    .q-rule-wrap {
+        position: absolute;
+        top: 105*@base;
+        left: 5*@base;
+        right: 5*@base;
+        bottom: 0;
+        overflow: auto;
+        font-weight: 500;
+        color: #000;
+    }
+    .q-rule-li {
+        line-height: 40*@base;
+        .mix-fontsize(11px);
+
+        &.tc {
+            text-align: center;
+        }
+        .pl {
+            display: inline-block;
+            padding: 0 20*@base;
+        }
+        .w300 {
+            display: inline-block;
+            width: 300*@base;
+
+            &.tl {
+                text-align: left;
+            }
+        }
+    }
+    .q-rule-circle {
+        display: inline-block;
+        width: 29*@base;
+        height: 29*@base;
+        line-height: 29*@base;
+        text-align: center;
+        vertical-align: middle;
+        margin-right: 5*@base;
+        background: url(../img/circle.png) no-repeat 0 0;
+        -webkit-background-size: 100% 100%;
+        background-size: 100% 100%;
+    }
+    .q-rule-footer {
+        .mix-fontsize(9px);
+        margin: 15*@base 0 20*@base;
+        text-align: center;
+    }
+    .q-rule-bg1 {
+        height: 30*@base;
+        line-height: 30*@base;
+        background-color: #A9EBFF;
+    }
+    .q-rule-bg2 {
+        height: 30*@base;
+        line-height: 30*@base;
+        background-color: #FFF100;
+    }
+    .q-rule-bg3 {
+        height: 30*@base;
+        line-height: 30*@base;
+        background-color: #FFA85A;
+    }
 }
 /* end */
